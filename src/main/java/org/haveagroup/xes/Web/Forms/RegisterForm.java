@@ -1,4 +1,4 @@
-package org.haveagroup.xes.Controller.Forms;
+package org.haveagroup.xes.Web.Forms;
 
 public class RegisterForm {
 

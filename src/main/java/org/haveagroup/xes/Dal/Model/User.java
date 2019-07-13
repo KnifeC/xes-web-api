@@ -6,20 +6,20 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user",uniqueConstraints={@UniqueConstraint(columnNames={"email"})})
+@Table(name="user")
 public class User {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
     private String userId;
+    @Column(unique = true)
     private String email;
     private String username;
     private String password;
 
-    public String getUserId() {
+    public String getserId() {
         return userId;
     }
 
