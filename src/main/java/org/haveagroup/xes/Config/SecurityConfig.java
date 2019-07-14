@@ -20,6 +20,7 @@
 //                .and()
 //                .csrf()
 //                .disable()
+//                .and()
 //                .cors()
 //
 //

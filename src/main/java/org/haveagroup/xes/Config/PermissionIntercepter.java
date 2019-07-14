@@ -1,6 +1,5 @@
 package org.haveagroup.xes.Config;
 
-import org.haveagroup.xes.Commom.SessionKey;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,9 +11,9 @@ public class PermissionIntercepter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
-        String username = session.getAttribute(SessionKey.USER_NAME).toString();
-        String userId = session.getAttribute(SessionKey.USER_ID).toString();
-        String userType = session.getAttribute(SessionKey.USER_TYPE).toString();
+        //    String username = session.getAttribute(SessionKey.USER_NAME).toString();
+         //   String userId = session.getAttribute(SessionKey.USER_ID).toString();
+         //   String userType = session.getAttribute(SessionKey.USER_TYPE).toString();
         //TODO:权限验证
 
         return true;

@@ -42,6 +42,9 @@ public class UserController {
 
     @PostMapping(value="webapi/register")
     public StatusJson userRegister(RegisterForm registerForm, ModelMap modelMap){
+        if(userService.isEmailUsed(registerForm.getEmail())){
+            return new StatusJson(Status.ERROR,"该邮箱已被注册","THIS");
+        }
         if(!StringUtil.isEquals(registerForm.getPassword(),registerForm.getRe_password())){
             return new StatusJson(Status.ERROR,"两次输入的密码不一致","THIS");
         }
