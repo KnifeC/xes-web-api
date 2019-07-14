@@ -1,20 +1,23 @@
 package org.haveagroup.xes.Web.Controller;
 
 
+import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
-import org.haveagroup.xes.Web.Forms.LoginForm;
-import org.haveagroup.xes.Web.Forms.RegisterForm;
-import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.UserService;
 import org.haveagroup.xes.Util.StringUtil;
+import org.haveagroup.xes.Web.Forms.LoginForm;
+import org.haveagroup.xes.Web.Forms.RegisterForm;
+import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.haveagroup.xes.Web.ResponseJson.UserDataJson;
 import org.haveagroup.xes.Web.ResponseJson.UserJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserController {
@@ -22,7 +25,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value="webapi/login")
-    public UserJson userLogin(LoginForm loginForm, HttpServletResponse response){
+    public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
         User user=userService.login(loginForm.getEmail(),loginForm.getPassword());
 //        String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
 //        Cookie cookie=new Cookie("userInfo",cookieValue);
@@ -31,6 +34,9 @@ public class UserController {
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson("",""));
         }
+        session.setAttribute(SessionKey.USER_ID,user.getUserId());
+        session.setAttribute(SessionKey.USER_TYPE,user.getType());
+        session.setAttribute(SessionKey.USER_NAME,user.getUsername());
         return new UserJson(new StatusJson(Status.SUCCESS,"登录成功","index"),new UserDataJson(user));
     }
 
