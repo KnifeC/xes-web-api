@@ -18,8 +18,17 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private String type = "user";
 
-    public String getserId() {
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUserId() {
         return userId;
     }
 
@@ -54,10 +63,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "number='" + userId + '\'' +
+                "userId='" + userId + '\'' +
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", type='" + type + '\'' +
                 '}';
     }
 }
