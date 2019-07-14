@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void register(String email,String username,String password){
+    public boolean register(String email,String username,String password){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String userPassword = bCryptPasswordEncoder.encode(password);
         User user = new User();
@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService{
         user.setPassword(userPassword);
         //user.setRegTime(new Date());
         userRepo.save(user);
+        return true;
     }
 
 
