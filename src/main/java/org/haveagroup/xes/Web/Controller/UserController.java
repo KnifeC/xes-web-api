@@ -11,13 +11,18 @@ import org.haveagroup.xes.Web.Forms.RegisterForm;
 import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.haveagroup.xes.Web.ResponseJson.UserDataJson;
 import org.haveagroup.xes.Web.ResponseJson.UserJson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -25,15 +30,20 @@ public class UserController {
     UserService userService;
 
     @PostMapping(value="webapi/login")
-    public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
+    public UserJson userLogin(LoginForm loginForm, @RequestBody Map<String, Object> payload, HttpServletResponse response, HttpSession session){
+        Logger logger = LoggerFactory.getLogger(UserController.class);
+        logger.info("看这里啊！！！！！！！&&&"+loginForm.getEmail()+"&&&"+loginForm.getPassword());
+        logger.info("看这里啊22222222&&&"+payload.get("email")+"&&&"+payload.get("password"));
+
         User user=userService.login(loginForm.getEmail(),loginForm.getPassword());
-//        String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
-//        Cookie cookie=new Cookie("userInfo",cookieValue);
-//        cookie.setMaxAge(7*24*60*60);
-//        response.addCookie(cookie);
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson("",""));
         }
+        String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
+        Cookie cookie=new Cookie("userInfo",cookieValue);
+        cookie.setMaxAge(7*24*60*60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         session.setAttribute(SessionKey.USER_ID,user.getUserId());
         session.setAttribute(SessionKey.USER_TYPE,user.getType());
         session.setAttribute(SessionKey.USER_NAME,user.getUsername());

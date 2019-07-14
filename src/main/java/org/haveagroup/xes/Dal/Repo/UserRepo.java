@@ -4,7 +4,7 @@ import org.haveagroup.xes.Dal.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepo extends JpaRepository<User,String> {
-    User findByEmailAndPassword(String email,String password);
-    User findByEmail(String email);
+    User findOneByEmailAndPassword(String email,String password);
+    User findOneByEmail(String email);
 
 }

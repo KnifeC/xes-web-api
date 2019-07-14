@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean isEmailUsed(String email){
-        if(userRepo.findByEmail(email)!=null){
+        if(userRepo.findOneByEmail(email)!=null){
             return true;
         }else{
             return false;
@@ -59,9 +59,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User login(String email,String password){
+        //TODO 加密
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try {
-            User user = userRepo.findByEmailAndPassword(email,password);
+            User user = userRepo.findOneByEmailAndPassword(email,password);
 //            if (!bCryptPasswordEncoder.matches(password,user.getPassword())){
 //                return null;
 //            }

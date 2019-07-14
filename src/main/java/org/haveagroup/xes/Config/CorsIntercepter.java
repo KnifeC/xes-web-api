@@ -1,11 +1,15 @@
 package org.haveagroup.xes.Config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CorsIntercepter implements HandlerInterceptor {
+    Logger logger = LoggerFactory.getLogger(CorsIntercepter.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -26,6 +30,9 @@ public class CorsIntercepter implements HandlerInterceptor {
                 "Origin, X-Requested-With, Content-Type, Accept");
         // 证书
         response.setHeader("Access-Control-Allow-Credentials", "true");
+
+        logger.info("拦截");
+
         return true;
     }
 }
