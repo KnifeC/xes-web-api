@@ -24,6 +24,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean changeType(User user,String type){
+        try{
+            user.setType(type);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean register(String email,String username,String password){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try{
