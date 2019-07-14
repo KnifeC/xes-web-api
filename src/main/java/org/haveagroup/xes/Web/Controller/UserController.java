@@ -33,15 +33,18 @@ public class UserController {
 
     @PostMapping(value="webapi/register")
     public StatusJson userRegister(RegisterForm registerForm, ModelMap modelMap){
-        if(userService.isEmailUsed(registerForm.getEmail())){
-            return new StatusJson(Status.ERROR,"邮箱已存在","THIS");
-        }else if(!StringUtil.isEquals(registerForm.getPassword(),registerForm.getRe_password())){
+        if(!StringUtil.isEquals(registerForm.getPassword(),registerForm.getRe_password())){
             return new StatusJson(Status.ERROR,"两次输入的密码不一致","THIS");
-        }else{
-            userService.register(registerForm.getEmail(),registerForm.getUsername(), registerForm.getPassword());
-            return new StatusJson(Status.SUCCESS,"两次输入的密码不一致","THIS");
         }
-
+        userService.register(registerForm.getEmail(),registerForm.getUsername(), registerForm.getPassword());
+        return new StatusJson(Status.SUCCESS,"注册成功","THIS");
     }
 
+    @PostMapping("webapi/checkemail")
+    public StatusJson checkEmail(String email){
+        if(userService.isEmailUsed(email)){
+            return new StatusJson(Status.ERROR,"邮箱已存在","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"邮箱可用","THIS");
+    }
 }

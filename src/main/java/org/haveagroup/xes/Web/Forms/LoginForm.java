@@ -2,6 +2,7 @@ package org.haveagroup.xes.Web.Forms;
 
 public class LoginForm {
     private String email;
+
     private String password;
 
     public String getEmail() {
