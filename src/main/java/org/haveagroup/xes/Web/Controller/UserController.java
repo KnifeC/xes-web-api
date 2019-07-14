@@ -28,6 +28,9 @@ public class UserController {
 //        Cookie cookie=new Cookie("userInfo",cookieValue);
 //        cookie.setMaxAge(7*24*60*60);
 //        response.addCookie(cookie);
+        if(user == null){
+            return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson("",""));
+        }
         return new UserJson(new StatusJson(Status.SUCCESS,"登录成功","index"),new UserDataJson(user));
     }
 

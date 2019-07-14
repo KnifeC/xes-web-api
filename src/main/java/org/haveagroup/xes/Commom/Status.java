@@ -1,8 +1,8 @@
 package org.haveagroup.xes.Commom;
 
 public class Status {
-    public static String SUCCESS = "SUCCESS";
-    public static String ERROR = "ERROR";
-    public static String WARNING = "WARNING";
+    public static String SUCCESS = "success";
+    public static String ERROR = "error";
+    public static String WARNING = "warning";
 
 }
