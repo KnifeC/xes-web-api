@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@Document(collection = "question_info")
-public class Bank {
+@Document(collection = "question_bank_docs")
+public class QuestionBank {
     @Id
     private String bankId;
     @Field("name")
