@@ -26,14 +26,20 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean register(String email,String username,String password){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String userPassword = bCryptPasswordEncoder.encode(password);
-        User user = new User();
-        user.setEmail(email);
-        user.setUsername(username);
-        user.setPassword(userPassword);
-        //user.setRegTime(new Date());
-        userRepo.save(user);
-        return true;
+        try{
+            String userPassword = bCryptPasswordEncoder.encode(password);
+            User user = new User();
+            user.setEmail(email);
+            user.setUsername(username);
+            user.setPassword(userPassword);
+            //user.setRegTime(new Date());
+            userRepo.save(user);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
 
