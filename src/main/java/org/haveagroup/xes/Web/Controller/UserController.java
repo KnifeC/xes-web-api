@@ -14,7 +14,6 @@ import org.haveagroup.xes.Web.ResponseJson.UserJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +28,7 @@ public class UserController {
 
     //@RequestBody Map<String, Object> payload,
     @PostMapping(value="webapi/login")
-    public UserJson userLogin(LoginForm loginForm,  HttpServletResponse response, HttpSession session){
+    public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
         Logger logger = LoggerFactory.getLogger(UserController.class);
         logger.info("看这里啊！！！！！！！&&&"+loginForm.getEmail()+"&&&"+loginForm.getPassword());
 //        logger.info("看这里啊22222222&&&"+payload.get("email")+"&&&"+payload.get("password"));
@@ -50,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping(value="webapi/register")
-    public StatusJson userRegister(RegisterForm registerForm, ModelMap modelMap){
+    public StatusJson userRegister(RegisterForm registerForm ){
         if(userService.isEmailUsed(registerForm.getEmail())){
             return new StatusJson(Status.ERROR,"该邮箱已被注册","THIS");
         }

@@ -14,10 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new CorsIntercepter()).addPathPatterns("*");
-
         //registry.addInterceptor(new PermissionIntercepter()).addPathPatterns("*");
-
     }
 
     @Override
