@@ -1,16 +1,21 @@
 package org.haveagroup.xes.Web.ResponseJson;
 
+import org.haveagroup.xes.Dal.Model.Question;
+
+import java.util.List;
+
 public class QuestionJson {
     StatusJson status;
-    String questionId;
-    String questionContent;
-    String questionAnswer;
+
+    List<String> questionIdList;
+    List<Question> questionList;
+    List<String> questionContentList;
 
 
-    public QuestionJson(StatusJson status, String questionId, String questionContent) {
+    public QuestionJson(StatusJson status, List<Question> questionList, List<String> questionIdList) {
         this.status = status;
-        this.questionId = questionId;
-        this.questionContent = questionContent;
+        this.questionList = questionList;
+        this.questionIdList = questionIdList;
     }
 
     public StatusJson getStatus() {
@@ -21,27 +26,27 @@ public class QuestionJson {
         this.status = status;
     }
 
-    public String getQuestionId() {
-        return questionId;
+    public List<String> getQuestionIdList() {
+        return questionIdList;
     }
 
-    public void setQuestionId(String questionId) {
-        this.questionId = questionId;
+    public void setQuestionIdList(List<String> questionIdList) {
+        this.questionIdList = questionIdList;
     }
 
-    public String getQuestionContent() {
-        return questionContent;
+    public List<Question> getQuestionList() {
+        return questionList;
     }
 
-    public void setQuestionContent(String questionContent) {
-        this.questionContent = questionContent;
+    public void setQuestionList(List<Question> questionList) {
+        this.questionList = questionList;
     }
 
-    public String getQuestionAnswer() {
-        return questionAnswer;
+    public List<String> getQuestionContentList() {
+        return questionContentList;
     }
 
-    public void setQuestionAnswer(String questionAnswer) {
-        this.questionAnswer = questionAnswer;
+    public void setQuestionContentList(List<String> questionContentList) {
+        this.questionContentList = questionContentList;
     }
 }

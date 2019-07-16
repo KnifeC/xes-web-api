@@ -11,5 +11,5 @@ public interface QuestionService {
 
     Question findByQuestionId(String questionId);
 
-    boolean addQuestionToBank(String QuestionId);
+    //boolean addQuestionToBank(String QuestionId);
 }

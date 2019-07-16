@@ -34,7 +34,6 @@ public class PaperController {
         return new PaperJson(new StatusJson(Status.SUCCESS,"显示试卷","THIS"),paperId,showQuestionIds,showQuestions);
     }
 
-
     public void addQuestionToPaper(String paperId,String questionId){
         Question question = questionService.findByQuestionId(questionId);
 
