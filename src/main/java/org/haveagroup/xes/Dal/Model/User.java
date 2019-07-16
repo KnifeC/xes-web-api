@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name="user")//uniqueConstraints = {@UniqueConstraint(columnNames="email")}
 public class User {
 
     @Id
@@ -14,7 +14,7 @@ public class User {
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
     private String userId;
-    @Column(unique = true)
+    @Column(nullable = false,length=64,unique = true)
     private String email;
     private String username;
     private String password;

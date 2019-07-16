@@ -1,13 +1,22 @@
 package org.haveagroup.xes.Dal.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="paq")
-public class PAQ {
+public class Paper_Question {
+    @Id
+    @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "jpa-uuid")
+    @Column(length = 32)
+    private String paqId;
+
     private String paperId;
     private String questionId;
+
+
 
     public String getPaperId() {
         return paperId;
@@ -23,13 +32,5 @@ public class PAQ {
 
     public void setQuestionId(String questionId) {
         this.questionId = questionId;
-    }
-
-    @Override
-    public String toString() {
-        return "PAQ{" +
-                "paperId='" + paperId + '\'' +
-                ", questionId='" + questionId + '\'' +
-                '}';
     }
 }

@@ -13,11 +13,11 @@ public class Question {
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
     private String questionId;
-    private String questionTitle;
+    private String questionType;
     private String questionContent;
     private String questionAnswer;
 
-
+    private double accuracy;
 
 
     public String getQuestionId() {
@@ -28,12 +28,12 @@ public class Question {
         this.questionId = questionId;
     }
 
-    public String getQuestionTitle() {
-        return questionTitle;
+    public String getQuestionType() {
+        return questionType;
     }
 
-    public void setQuestionTitle(String questionTitle) {
-        this.questionTitle = questionTitle;
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
     }
 
     public String getQuestionContent() {
@@ -50,5 +50,13 @@ public class Question {
 
     public void setQuestionAnswer(String questionAnswer) {
         this.questionAnswer = questionAnswer;
+    }
+
+    public double getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
     }
 }

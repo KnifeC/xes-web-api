@@ -3,12 +3,13 @@ package org.haveagroup.xes.Service;
 
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Dal.Repo.UserRepo;
+import org.haveagroup.xes.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepo userRepo;
@@ -50,7 +51,6 @@ public class UserServiceImpl implements UserService{
             e.printStackTrace();
             return false;
         }
-
     }
 
 

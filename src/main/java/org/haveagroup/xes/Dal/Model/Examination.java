@@ -13,5 +13,7 @@ public class Examination {
     @Column(length = 32)
     private String examinationId;
     private String numberOfPapers;
-    private double avgOfExamination;;
+    private double average;
+
+
 }
