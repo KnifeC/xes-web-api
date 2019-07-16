@@ -35,7 +35,7 @@ public class UserController {
 
         User user=userService.login(loginForm.getEmail(),loginForm.getPassword());
         if(user == null){
-            return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson("",""));
+            return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
         }
         String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
         Cookie cookie=new Cookie("userInfo",cookieValue);
