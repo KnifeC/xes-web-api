@@ -26,13 +26,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     //@RequestBody Map<String, Object> payload,
     @PostMapping(value="webapi/login")
     public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
-        Logger logger = LoggerFactory.getLogger(UserController.class);
         logger.info("看这里啊！！！！！！！&&&"+loginForm.getEmail()+"&&&"+loginForm.getPassword());
-//        logger.info("看这里啊22222222&&&"+payload.get("email")+"&&&"+payload.get("password"));
-
         User user=userService.login(loginForm.getEmail(),loginForm.getPassword());
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
@@ -50,6 +49,7 @@ public class UserController {
 
     @PostMapping(value="webapi/register")
     public StatusJson userRegister(RegisterForm registerForm ){
+        logger.info(registerForm.toString());
         if(userService.isEmailUsed(registerForm.getEmail())){
             return new StatusJson(Status.ERROR,"该邮箱已被注册","THIS");
         }
