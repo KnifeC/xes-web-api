@@ -8,4 +8,5 @@ import java.util.List;
 public interface PaperQuestionRepo extends JpaRepository<Paper_Question,String> {
     List<Paper_Question> findQuestionIdByPaperId(String paperId);
     List<Paper_Question> findPaperIdByQuestionId(String QuestionId);
+    Paper_Question findOneByPaperIdAndQuestionId(String paperId,String questionId);
 }

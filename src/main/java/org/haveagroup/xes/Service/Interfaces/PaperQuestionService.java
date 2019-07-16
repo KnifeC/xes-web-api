@@ -6,4 +6,5 @@ public interface PaperQuestionService {
     List<String> findQuestionIdByPaperId(String paperId);
     List<String> findPaperIdByQuestionId(String questionId);
     boolean addQuestionToPaper(String paperId,String questionId);
+    boolean isQuestionUsed(String paperId,String QuestionId);
 }

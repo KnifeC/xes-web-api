@@ -3,7 +3,7 @@ package org.haveagroup.xes.Web.ResponseJson;
 public class StatusJson {
     String status;
     String message;
-    String next;
+    String next="";
 
     @Override
     public String toString() {

@@ -13,6 +13,30 @@ public class Paper {
     @Column(length = 32)
     private String paperId;
     private String examinationId;
+    private String examinationnName;
     private double averageScoreOfPaper;
 
+    public String getPaperId() {
+        return paperId;
+    }
+
+    public void setPaperId(String paperId) {
+        this.paperId = paperId;
+    }
+
+    public String getExaminationId() {
+        return examinationId;
+    }
+
+    public void setExaminationId(String examinationId) {
+        this.examinationId = examinationId;
+    }
+
+    public String getExaminationnName() {
+        return examinationnName;
+    }
+
+    public void setExaminationnName(String examinationnName) {
+        this.examinationnName = examinationnName;
+    }
 }

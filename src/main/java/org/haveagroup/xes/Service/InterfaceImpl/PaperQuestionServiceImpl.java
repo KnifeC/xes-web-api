@@ -47,4 +47,19 @@ public class PaperQuestionServiceImpl implements PaperQuestionService {
             return false;
         }
     }
+
+    @Override
+    public boolean isQuestionUsed(String paperId,String questionId){
+        try{
+            Paper_Question paper_question = paperQuestionRepo.findOneByPaperIdAndQuestionId(paperId,questionId);
+            if(paper_question!=null){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
