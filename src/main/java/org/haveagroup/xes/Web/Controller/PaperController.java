@@ -24,7 +24,7 @@ public class PaperController {
     @Autowired
     PaperQuestionService paperQuestionService;
 
-    @GetMapping(value="showPaper/{paperId}")
+    @GetMapping(value="webapi/showPaper/{paperId}")
     public PaperJson showPaper(@PathVariable("paperId") String paperId){
         List<String> showQuestionIds = paperQuestionService.findQuestionIdByPaperId(paperId);
         List<Question> showQuestions = new ArrayList<>();

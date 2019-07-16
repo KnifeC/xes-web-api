@@ -5,13 +5,13 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="paq")
+@Table(name="paper_question")
 public class Paper_Question {
     @Id
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
-    private String paqId;
+    private String pqId;
 
     private String paperId;
     private String questionId;
