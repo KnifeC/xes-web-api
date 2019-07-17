@@ -29,7 +29,7 @@ public class QuestionController {
     }
 
     @GetMapping(value="webapi/question/{questionId}")
-    public QuestionJson searchQuestionByQuestionId(String questionId){
+    public QuestionJson searchQuestionByQuestionId(@PathVariable("questionId") String questionId){
         Question question = questionService.findByQuestionId(questionId);
         List<Question> oneQuestion = new ArrayList<>();
         List<String> oneQuestionId = new ArrayList<>();
