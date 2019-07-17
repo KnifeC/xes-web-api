@@ -8,7 +8,6 @@ import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -19,8 +18,8 @@ public class QuestionController {
     @Autowired
     QuestionService questionService;
 
-    @GetMapping(value="webapi/contentSearch/")
-    public QuestionJson searchQuestionByQuestionContent(String questionContent){
+    @GetMapping(value="webapi/search/{questionContent}")
+    public QuestionJson searchQuestionByQuestionContent(@PathVariable("questionContent") String questionContent){
         List<Question> allByQuestionContent = questionService.findAllByQuestionContentLike(questionContent);
         List<String> allIdbyQuestionContent = new ArrayList<>();
         for(Question q : allByQuestionContent){
@@ -30,8 +29,8 @@ public class QuestionController {
     }
 
     @GetMapping(value="webapi/question/{questionId}")
-    public QuestionJson searchQuestionByQuestionId(@PathVariable("questionId") String questionId){
-        Question question = questionService.findCacheByQuestionId(questionId);
+    public QuestionJson searchQuestionByQuestionId(String questionId){
+        Question question = questionService.findByQuestionId(questionId);
         List<Question> oneQuestion = new ArrayList<>();
         List<String> oneQuestionId = new ArrayList<>();
         oneQuestion.add(question);
