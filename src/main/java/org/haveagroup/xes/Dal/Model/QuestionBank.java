@@ -14,6 +14,7 @@ public class QuestionBank {
     private String bankId;
     private String bankName;
     private String userId;
+    private boolean visible=true;
 
     public String getBankId() {
         return bankId;
@@ -37,5 +38,13 @@ public class QuestionBank {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

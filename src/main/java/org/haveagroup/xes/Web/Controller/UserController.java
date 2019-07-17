@@ -7,6 +7,7 @@ import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.UserService;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.Forms.LoginForm;
+import org.haveagroup.xes.Web.Forms.EditForm;
 import org.haveagroup.xes.Web.Forms.RegisterForm;
 import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.haveagroup.xes.Web.ResponseJson.UserDataJson;
@@ -63,6 +64,25 @@ public class UserController {
         return new StatusJson(Status.SUCCESS,"注册成功","THIS");
     }
 
+    @PostMapping(value="webapi/editInfo")
+    public UserJson editInfo(EditForm editForm){
+        User user = userService.editInfo(editForm.getUserId(),editForm.getUsername(),editForm.getPassword());
+        if(user == null){
+            return new UserJson(new StatusJson(Status.ERROR,"修改失败","THIS"),new UserDataJson(user));
+        }else{
+            return new UserJson(new StatusJson(Status.SUCCESS,"修改成功","THIS"),new UserDataJson(user));
+        }
+    }
+
+    @PostMapping(value="webapi/changeType")
+    public StatusJson changeType(String userId,EditForm editForm){
+        if(userService.changeType(userId,editForm.getType())){
+            return new StatusJson(Status.SUCCESS,"修改成功","THIS");
+        }else{
+            return new StatusJson(Status.ERROR,"修改失败","THIS");
+        }
+    }
+
     @PostMapping("webapi/checkemail")
     public StatusJson checkEmail(String email){
         if(userService.isEmailUsed(email)){
@@ -86,4 +106,6 @@ public class UserController {
             return new UserJson(new StatusJson(Status.ERROR,"",""),new UserDataJson());
         }
     }
+
+
 }

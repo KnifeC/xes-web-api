@@ -17,20 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isEmailUsed(String email){
-        if(userRepo.findOneByEmail(email)!=null){
+        if(userRepo.findByEmail(email)!=null){
             return true;
         }else{
-            return false;
-        }
-    }
-
-    @Override
-    public boolean changeType(User user,String type){
-        try{
-            user.setType(type);
-            return true;
-        }catch(Exception e){
-            e.printStackTrace();
             return false;
         }
     }
@@ -54,15 +43,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
-
-
     @Override
     public User login(String email,String password){
         //TODO 加密
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try {
-            User user = userRepo.findOneByEmailAndPassword(email,password);
+            User user = userRepo.findByEmailAndPassword(email,password);
 //            if (!bCryptPasswordEncoder.matches(password,user.getPassword())){
 //                return null;
 //            }
@@ -72,4 +58,41 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public User editInfo(String userId,String username,String password){
+        try{
+            User user = userRepo.findByUserId(userId);
+            user.setUsername(username);
+            user.setPassword(password);
+            return user;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public boolean changeType(String userId,String type){
+        try{
+            User user = userRepo.findByUserId(userId);
+            user.setType(type);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public User findByUserId(String userId){
+        try{
+            return userRepo.findByUserId(userId);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 }
