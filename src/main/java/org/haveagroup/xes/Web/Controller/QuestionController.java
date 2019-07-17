@@ -20,21 +20,21 @@ public class QuestionController {
 
     @GetMapping(value="webapi/search/{questionContent}")
     public QuestionJson searchQuestionByQuestionContent(@PathVariable("questionContent") String questionContent){
+        List<String> allIdByQuestionContent = new ArrayList<>();
         List<Question> allByQuestionContent = questionService.findAllByQuestionContentLike(questionContent);
-        List<String> allIdbyQuestionContent = new ArrayList<>();
         for(Question q : allByQuestionContent){
-            allIdbyQuestionContent.add(q.getQuestionId());
+            allIdByQuestionContent.add(q.getQuestionId());
         }
-        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示符合关键字的试题","THIS"),allByQuestionContent,allIdbyQuestionContent);
+        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示符合关键字的试题","THIS"),allIdByQuestionContent,allByQuestionContent);
     }
 
     @GetMapping(value="webapi/question/{questionId}")
     public QuestionJson searchQuestionByQuestionId(@PathVariable("questionId") String questionId){
         Question question = questionService.findByQuestionId(questionId);
-        List<Question> oneQuestion = new ArrayList<>();
         List<String> oneQuestionId = new ArrayList<>();
-        oneQuestion.add(question);
+        List<Question> oneQuestion = new ArrayList<>();
         oneQuestionId.add(question.getQuestionId());
-        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示该Id对应试题","THIS"),oneQuestion,oneQuestionId);
+        oneQuestion.add(question);
+        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示该Id对应试题","THIS"),oneQuestionId,oneQuestion);
     }
 }

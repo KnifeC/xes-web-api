@@ -12,10 +12,10 @@ public class QuestionJson {
     List<String> questionContentList;
 
 
-    public QuestionJson(StatusJson status, List<Question> questionList, List<String> questionIdList) {
+    public QuestionJson(StatusJson status, List<String> questionIdList, List<Question> questionList) {
         this.status = status;
-        this.questionList = questionList;
         this.questionIdList = questionIdList;
+        this.questionList = questionList;
     }
 
     public StatusJson getStatus() {

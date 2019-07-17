@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")//uniqueConstraints = {@UniqueConstraint(columnNames="email")}
+@Table(name="user")
 public class User {
 
     @Id

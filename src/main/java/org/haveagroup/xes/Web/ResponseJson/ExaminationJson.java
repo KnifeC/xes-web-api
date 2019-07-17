@@ -1,14 +1,19 @@
 package org.haveagroup.xes.Web.ResponseJson;
 
+import org.haveagroup.xes.Dal.Model.Examination;
+
+import java.util.List;
+
 public class ExaminationJson {
     StatusJson status;
-    String examinationId;
-    String examinationName;
 
-    public ExaminationJson(StatusJson status, String examinationId, String examinationName) {
+    List<String> examinationIdList;
+    List<Examination> examinationList;
+
+    public ExaminationJson(StatusJson status, List<String> examinationIdList, List<Examination> examinationList) {
         this.status = status;
-        this.examinationId = examinationId;
-        this.examinationName = examinationName;
+        this.examinationIdList = examinationIdList;
+        this.examinationList = examinationList;
     }
 
     public StatusJson getStatus() {
@@ -19,19 +24,19 @@ public class ExaminationJson {
         this.status = status;
     }
 
-    public String getExaminationId() {
-        return examinationId;
+    public List<String> getExaminationIdList() {
+        return examinationIdList;
     }
 
-    public void setExaminationId(String examinationId) {
-        this.examinationId = examinationId;
+    public void setExaminationIdList(List<String> examinationIdList) {
+        this.examinationIdList = examinationIdList;
     }
 
-    public String getExaminationName() {
-        return examinationName;
+    public List<Examination> getExaminationList() {
+        return examinationList;
     }
 
-    public void setExaminationName(String examinationName) {
-        this.examinationName = examinationName;
+    public void setExaminationList(List<Examination> examinationList) {
+        this.examinationList = examinationList;
     }
 }

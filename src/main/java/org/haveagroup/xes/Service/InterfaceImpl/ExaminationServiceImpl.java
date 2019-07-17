@@ -27,6 +27,29 @@ public class ExaminationServiceImpl implements ExaminationService {
     }
 
     @Override
+    public boolean deleteExamination(String examinationId){
+        try{
+            examinationRepo.deleteById(examinationId);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Examination findOneByExaminationId(String examinationId){
+        try{
+            Examination OneByExaminationId = examinationRepo.findOneByExaminationId(examinationId);
+            return OneByExaminationId;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    @Override
     public List<Examination> findAllByExaminationNameLike(String examinationName){
         try{
             List<Examination> allByExaminationNameLike = examinationRepo.findAllByExaminationNameLike("%"+examinationName+"%");
