@@ -79,7 +79,7 @@ public class UserController {
             String userName = session.getAttribute(SessionKey.USER_NAME).toString();
             String userEmail = session.getAttribute(SessionKey.USER_EMAIL).toString();
             logger.info("USERNAME:"+userName);
-            return new UserJson(new StatusJson(Status.SUCCESS,"",""),new UserDataJson(userId,userName,userEmail));
+            return new UserJson(new StatusJson(Status.SUCCESS,"",""),new UserDataJson(userId,userName,userEmail,userType));
         }catch(Exception e){
             //TODO:验证cookie
             logger.error("你还未登录呢");
