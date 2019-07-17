@@ -70,4 +70,6 @@ public class UserController {
         }
         return new StatusJson(Status.SUCCESS,"邮箱可用","THIS");
     }
+
+
 }

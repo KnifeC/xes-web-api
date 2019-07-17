@@ -1,5 +1,6 @@
 package org.haveagroup.xes.Util;
 
+
 public class StringUtil {
     public static boolean isEquals(String str1,String str2){
         if(str1==null||str2==null){

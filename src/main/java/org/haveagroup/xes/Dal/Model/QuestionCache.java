@@ -1,14 +1,13 @@
 package org.haveagroup.xes.Dal.Model;
 
-
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="question")
-public class Question implements Serializable {
+@Table(name="question_cache")
+public class QuestionCache implements Serializable {
     @Id
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")

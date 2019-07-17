@@ -9,12 +9,11 @@ import java.util.List;
 
 public interface QuestionRepo extends JpaRepository<Question,String> {
 
+    List<Question> findAllByQuestionContentLike(String questionContent);
+    Question findByQuestionId(String questionId);
+
     //@Query(value = "select questionId,questionContent from Question q where q.questionContent like CONCAT('%',:questionContent,'%')")
     //List<Question> findByQuestionContentLike(@Param("questionContent") String questionContent);
-
-    List<Question> findAllByQuestionContentLike(String questionContent);
-
-    Question findByQuestionId(String questionId);
 
     //List<Question> findByTag
 

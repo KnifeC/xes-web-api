@@ -2,6 +2,7 @@ package org.haveagroup.xes.Web.Controller;
 
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.Paper;
+import org.haveagroup.xes.Dal.Model.Paper_Question;
 import org.haveagroup.xes.Dal.Model.Question;
 import org.haveagroup.xes.Service.Interfaces.PaperQuestionService;
 import org.haveagroup.xes.Service.Interfaces.PaperService;
@@ -43,9 +44,18 @@ public class PaperController {
         return new PaperQuestionJson(new StatusJson(Status.SUCCESS,"显示试卷","THIS"),paperId,showQuestionIds,showQuestions);
     }
 
-    @GetMapping(value="webapi/addQuestion/{questionId}")
-    public void addQuestionToPaper(@PathVariable("questionId") String questionId,String paperId){
+    @PostMapping(value="webapi/addQuestion/{questionId}")
+    public PaperQuestionJson addQuestionToPaper(@PathVariable("questionId") String questionId,String paperId){
+        List<String> addedQuestionIdList = paperQuestionService.findQuestionIdByPaperId(paperId);
+        addedQuestionIdList.add(questionId);
+
+        List<Question> addedQuestionList = new ArrayList<>();
+        for(String addedQuestionId : addedQuestionIdList){
+            Question addedQuestion = questionService.findByQuestionId(addedQuestionId);
+            addedQuestionList.add(addedQuestion);
+        }
         boolean addQuestionToPaper = paperQuestionService.addQuestionToPaper(paperId,questionId);
 
+        return new PaperQuestionJson(new StatusJson(Status.SUCCESS,"向该试卷中添加试题","THIS"),paperId,addedQuestionIdList,addedQuestionList);
     }
 }

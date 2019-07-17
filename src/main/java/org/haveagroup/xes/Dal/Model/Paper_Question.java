@@ -16,7 +16,13 @@ public class Paper_Question {
     private String paperId;
     private String questionId;
 
+    public String getPqId() {
+        return pqId;
+    }
 
+    public void setPqId(String pqId) {
+        this.pqId = pqId;
+    }
 
     public String getPaperId() {
         return paperId;

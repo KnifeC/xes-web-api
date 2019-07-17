@@ -6,20 +6,23 @@ public class UserDataJson {
     String userUuid;
     String username;
     String email;
+    String type;
 
     public UserDataJson(User user){
         this.userUuid = user.getUserId();
         this.username = user.getUsername();
         this.email = user.getEmail();
+        this.type =  user.getType();
     }
 
     public UserDataJson() {
     }
 
-    public UserDataJson(String userUuid, String username, String email) {
+    public UserDataJson(String userUuid, String username, String email, String type) {
         this.userUuid = userUuid;
         this.username = username;
         this.email = email;
+        this.type = type;
     }
 
     public String getUserUuid() {
@@ -44,5 +47,13 @@ public class UserDataJson {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
