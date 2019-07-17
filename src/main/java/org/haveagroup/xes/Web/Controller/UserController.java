@@ -14,6 +14,7 @@ import org.haveagroup.xes.Web.ResponseJson.UserJson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,6 @@ public class UserController {
     UserService userService;
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
-
     //@RequestBody Map<String, Object> payload,
     @PostMapping(value="webapi/login")
     public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
@@ -37,19 +37,19 @@ public class UserController {
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
         }
         String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
-        Cookie cookie=new Cookie("userInfo",cookieValue);
+        Cookie cookie=new Cookie("token",cookieValue);
         cookie.setMaxAge(7*24*60*60);
         cookie.setPath("/");
         response.addCookie(cookie);
         session.setAttribute(SessionKey.USER_ID,user.getUserId());
         session.setAttribute(SessionKey.USER_TYPE,user.getType());
         session.setAttribute(SessionKey.USER_NAME,user.getUsername());
+        session.setAttribute(SessionKey.USER_EMAIL,user.getEmail());
         return new UserJson(new StatusJson(Status.SUCCESS,"登录成功","index"),new UserDataJson(user));
     }
 
     @PostMapping(value="webapi/register")
     public StatusJson userRegister(RegisterForm registerForm ){
-        logger.info(registerForm.toString());
         if(userService.isEmailUsed(registerForm.getEmail())){
             return new StatusJson(Status.ERROR,"该邮箱已被注册","THIS");
         }
@@ -69,5 +69,21 @@ public class UserController {
             return new StatusJson(Status.ERROR,"邮箱已存在","THIS");
         }
         return new StatusJson(Status.SUCCESS,"邮箱可用","THIS");
+    }
+
+    @GetMapping("webapi/gettoken")
+    public UserJson getUserInfo(HttpSession session){
+        try {
+            String userId = session.getAttribute(SessionKey.USER_ID).toString();
+            String userType = session.getAttribute(SessionKey.USER_TYPE).toString();
+            String userName = session.getAttribute(SessionKey.USER_NAME).toString();
+            String userEmail = session.getAttribute(SessionKey.USER_EMAIL).toString();
+            logger.info("USERNAME:"+userName);
+            return new UserJson(new StatusJson(Status.SUCCESS,"",""),new UserDataJson(userId,userName,userEmail));
+        }catch(Exception e){
+            //TODO:验证cookie
+            logger.error("你还未登录呢");
+            return new UserJson(new StatusJson(Status.ERROR,"",""),new UserDataJson());
+        }
     }
 }
