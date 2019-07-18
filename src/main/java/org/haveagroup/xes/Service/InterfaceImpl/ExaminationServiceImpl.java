@@ -14,10 +14,11 @@ public class ExaminationServiceImpl implements ExaminationService {
     ExaminationRepo examinationRepo;
 
     @Override
-    public Examination createExamination(String examinationName){
+    public Examination createExamination(String examinationName,String examinationCreator){
         try{
             Examination examination = new Examination();
             examination.setExaminationName(examinationName);
+            examination.setExaminationCreator(examinationCreator);
             examinationRepo.save(examination);
             return examination;
         }catch(Exception e){

@@ -1,6 +1,5 @@
 package org.haveagroup.xes.Web.Controller;
 
-
 import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.User;
@@ -65,11 +64,17 @@ public class UserController {
     }
 
     @PostMapping(value="webapi/editInfo")
-    public UserJson editInfo(EditForm editForm){
+    public UserJson editInfo(EditForm editForm,HttpSession session){
+
         User user = userService.editInfo(editForm.getUserId(),editForm.getUsername(),editForm.getPassword());
+
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"修改失败","THIS"),new UserDataJson(user));
         }else{
+            session.setAttribute(SessionKey.USER_ID,user.getUserId());
+            session.setAttribute(SessionKey.USER_TYPE,user.getType());
+            session.setAttribute(SessionKey.USER_NAME,user.getUsername());
+            session.setAttribute(SessionKey.USER_EMAIL,user.getEmail());
             return new UserJson(new StatusJson(Status.SUCCESS,"修改成功","THIS"),new UserDataJson(user));
         }
     }

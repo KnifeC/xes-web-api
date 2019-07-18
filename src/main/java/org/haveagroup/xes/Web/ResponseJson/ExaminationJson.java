@@ -6,14 +6,14 @@ import java.util.List;
 
 public class ExaminationJson {
     StatusJson status;
+    List<ExaminationDataJson> examinationData;
 
-    List<String> examinationIdList;
-    List<Examination> examinationList;
+    public ExaminationJson() {
+    }
 
-    public ExaminationJson(StatusJson status, List<String> examinationIdList, List<Examination> examinationList) {
+    public ExaminationJson(StatusJson status, List<ExaminationDataJson> examinationData) {
         this.status = status;
-        this.examinationIdList = examinationIdList;
-        this.examinationList = examinationList;
+        this.examinationData = examinationData;
     }
 
     public StatusJson getStatus() {
@@ -24,19 +24,11 @@ public class ExaminationJson {
         this.status = status;
     }
 
-    public List<String> getExaminationIdList() {
-        return examinationIdList;
+    public List<ExaminationDataJson> getExaminationData() {
+        return examinationData;
     }
 
-    public void setExaminationIdList(List<String> examinationIdList) {
-        this.examinationIdList = examinationIdList;
-    }
-
-    public List<Examination> getExaminationList() {
-        return examinationList;
-    }
-
-    public void setExaminationList(List<Examination> examinationList) {
-        this.examinationList = examinationList;
+    public void setExaminationData(List<ExaminationDataJson> examinationData) {
+        this.examinationData = examinationData;
     }
 }

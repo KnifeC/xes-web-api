@@ -1,21 +1,18 @@
-package org.haveagroup.xes.Dal.Model;
+package org.haveagroup.xes.Web.ResponseJson;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name="examination")
-public class Examination {
-    @Id
-    @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
-    @GeneratedValue(generator = "jpa-uuid")
-    @Column(length = 32)
+public class ExaminationDataJson {
     private String examinationId;
     private String examinationName;
     private String examinationCreator;
-    private String numberOfPapers;
-    private double average;
+
+    public ExaminationDataJson() {
+    }
+
+    public ExaminationDataJson(String examinationId, String examinationName, String examinationCreator) {
+        this.examinationId = examinationId;
+        this.examinationName = examinationName;
+        this.examinationCreator = examinationCreator;
+    }
 
     public String getExaminationId() {
         return examinationId;
