@@ -29,7 +29,7 @@ public class ExaminationController {
         List<Examination> allByCreator = examinationService.findAllByCreator(creatorId);
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
         if(allByCreator.size()==0){
-            return new ExaminationJson(new StatusJson(Status.WARNING,"没有符合关键字的考试","THIS"),examinationDataList);
+            return new ExaminationJson(new StatusJson(Status.WARNING,"该用户没有发布考试","THIS"),examinationDataList);
         }else{
             for(Examination examination : allByCreator){
                 User creator = userService.findByUserId(examination.getCreatorId());
@@ -37,7 +37,7 @@ public class ExaminationController {
                         examination.getExaminationName(),examination.getCreatorId(),creator.getUsername());
                 examinationDataList.add(examinationDataJson);
             }
-            return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示符合关键字的考试","THIS"),examinationDataList);
+            return new ExaminationJson(new StatusJson(Status.SUCCESS,"该用户发布的考试","THIS"),examinationDataList);
         }
     }
 
