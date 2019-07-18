@@ -4,6 +4,9 @@ public class QuestionDataJson {
     String questionId;
     String questionContent;
 
+    public QuestionDataJson() {
+    }
+
     public QuestionDataJson(String questionId, String questionContent) {
         this.questionId = questionId;
         this.questionContent = questionContent;
