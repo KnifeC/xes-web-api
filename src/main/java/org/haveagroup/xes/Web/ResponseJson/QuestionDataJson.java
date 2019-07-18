@@ -6,23 +6,28 @@ public class QuestionDataJson {
 
     String questionAnswer;
     String questionType;
-    String questionUploader;
+    String uploaderId;
+    String uploaderName;
 
 
     public QuestionDataJson() {
     }
 
-    public QuestionDataJson(String questionId, String questionContent) {
+
+    public QuestionDataJson(String questionId, String questionContent, String uploaderId, String uploaderName) {
         this.questionId = questionId;
         this.questionContent = questionContent;
+        this.uploaderId = uploaderId;
+        this.uploaderName = uploaderName;
     }
 
-    public QuestionDataJson(String questionId, String questionContent, String questionAnswer, String questionType, String questionUploader) {
+    public QuestionDataJson(String questionId, String questionContent, String questionAnswer, String questionType, String uploaderId, String uploaderName) {
         this.questionId = questionId;
         this.questionContent = questionContent;
         this.questionAnswer = questionAnswer;
         this.questionType = questionType;
-        this.questionUploader = questionUploader;
+        this.uploaderId = uploaderId;
+        this.uploaderName = uploaderName;
     }
 
     public String getQuestionId() {
@@ -57,11 +62,19 @@ public class QuestionDataJson {
         this.questionType = questionType;
     }
 
-    public String getQuestionUploader() {
-        return questionUploader;
+    public String getUploaderId() {
+        return uploaderId;
     }
 
-    public void setQuestionUploader(String questionUploader) {
-        this.questionUploader = questionUploader;
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId;
+    }
+
+    public String getUploaderName() {
+        return uploaderName;
+    }
+
+    public void setUploaderName(String uploaderName) {
+        this.uploaderName = uploaderName;
     }
 }

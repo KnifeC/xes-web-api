@@ -1,7 +1,5 @@
 package org.haveagroup.xes.Web.ResponseJson;
 
-import org.haveagroup.xes.Dal.Model.Examination;
-
 import java.util.List;
 
 public class ExaminationJson {

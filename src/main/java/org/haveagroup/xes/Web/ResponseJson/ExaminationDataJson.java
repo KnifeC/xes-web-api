@@ -3,15 +3,23 @@ package org.haveagroup.xes.Web.ResponseJson;
 public class ExaminationDataJson {
     private String examinationId;
     private String examinationName;
-    private String examinationCreator;
+    private String creatorId;
+    private String creatorName;
 
     public ExaminationDataJson() {
     }
 
-    public ExaminationDataJson(String examinationId, String examinationName, String examinationCreator) {
+    public ExaminationDataJson(String examinationId, String examinationName, String creatorId) {
         this.examinationId = examinationId;
         this.examinationName = examinationName;
-        this.examinationCreator = examinationCreator;
+        this.creatorId = creatorId;
+    }
+
+    public ExaminationDataJson(String examinationId, String examinationName, String creatorId, String creatorName) {
+        this.examinationId = examinationId;
+        this.examinationName = examinationName;
+        this.creatorId = creatorId;
+        this.creatorName = creatorName;
     }
 
     public String getExaminationId() {
@@ -30,11 +38,19 @@ public class ExaminationDataJson {
         this.examinationName = examinationName;
     }
 
-    public String getExaminationCreator() {
-        return examinationCreator;
+    public String getCreatorId() {
+        return creatorId;
     }
 
-    public void setExaminationCreator(String examinationCreator) {
-        this.examinationCreator = examinationCreator;
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
     }
 }

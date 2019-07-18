@@ -18,7 +18,8 @@ public class Question implements Serializable {
     private String questionContent;
     private String questionAnswer;
 
-    private String questionUploader;
+    private String uploaderId;
+    //private String uploaderName;
 
     private double accuracy;
 
@@ -55,12 +56,12 @@ public class Question implements Serializable {
         this.questionAnswer = questionAnswer;
     }
 
-    public String getQuestionUploader() {
-        return questionUploader;
+    public String getUploaderId() {
+        return uploaderId;
     }
 
-    public void setQuestionUploader(String questionUploader) {
-        this.questionUploader = questionUploader;
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId;
     }
 
     public double getAccuracy() {

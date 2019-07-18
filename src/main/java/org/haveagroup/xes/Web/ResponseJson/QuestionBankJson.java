@@ -1,42 +1,31 @@
 package org.haveagroup.xes.Web.ResponseJson;
 
 
+import java.util.List;
+
 public class QuestionBankJson {
     StatusJson status;
-    QuestionBankDataJson questionBankData;
-    String questionBankId;
+    List<QuestionBankDataJson> questionBankData;
 
-    public QuestionBankJson(StatusJson status, QuestionBankDataJson questionBankData) {
-        this.status = status;
-        this.questionBankData = questionBankData;
-    }
-
-    public QuestionBankJson(StatusJson status, String questionBankId) {
-        this.status = status;
-        this.questionBankId = questionBankId;
-    }
 
     public StatusJson getStatus() {
         return status;
+    }
+
+    public QuestionBankJson(StatusJson status, List<QuestionBankDataJson> questionBankData) {
+        this.status = status;
+        this.questionBankData = questionBankData;
     }
 
     public void setStatus(StatusJson status) {
         this.status = status;
     }
 
-    public QuestionBankDataJson getQuestionBankData() {
+    public List<QuestionBankDataJson> getQuestionBankData() {
         return questionBankData;
     }
 
-    public void setQuestionBankData(QuestionBankDataJson questionBankData) {
+    public void setQuestionBankData(List<QuestionBankDataJson> questionBankData) {
         this.questionBankData = questionBankData;
-    }
-
-    public String getQuestionBankId() {
-        return questionBankId;
-    }
-
-    public void setQuestionBankId(String questionBankId) {
-        this.questionBankId = questionBankId;
     }
 }

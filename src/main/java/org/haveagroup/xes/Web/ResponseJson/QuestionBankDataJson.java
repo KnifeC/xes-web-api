@@ -2,21 +2,24 @@ package org.haveagroup.xes.Web.ResponseJson;
 
 import org.haveagroup.xes.Dal.Model.Question;
 
-import java.util.List;
 
 public class QuestionBankDataJson {
-    String questionBankId;
-    List<String> questionIdList;
-    List<Question> questionList;
+    private String questionBankId;
+    private String questionBankName;
+    private String ownerId;
+    private String ownerName;
 
-    public QuestionBankDataJson(String questionBankId) {
+    public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId) {
         this.questionBankId = questionBankId;
+        this.questionBankName = questionBankName;
+        this.ownerId = ownerId;
     }
 
-    public QuestionBankDataJson(String questionBankId, List<String> questionIdList, List<Question> questionList) {
+    public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId, String ownerName) {
         this.questionBankId = questionBankId;
-        this.questionIdList = questionIdList;
-        this.questionList = questionList;
+        this.questionBankName = questionBankName;
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
     }
 
     public String getQuestionBankId() {
@@ -27,19 +30,27 @@ public class QuestionBankDataJson {
         this.questionBankId = questionBankId;
     }
 
-    public List<String> getQuestionIdList() {
-        return questionIdList;
+    public String getQuestionBankName() {
+        return questionBankName;
     }
 
-    public void setQuestionIdList(List<String> questionIdList) {
-        this.questionIdList = questionIdList;
+    public void setQuestionBankName(String questionBankName) {
+        this.questionBankName = questionBankName;
     }
 
-    public List<Question> getQuestionList() {
-        return questionList;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setQuestionList(List<Question> questionList) {
-        this.questionList = questionList;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 }

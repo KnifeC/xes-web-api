@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ExaminationService {
 
-    Examination createExamination(String examinationName,String examinationCreator);
+    Examination createExamination(String examinationName,String creatorId);
     boolean deleteExamination(String examinationId);
     Examination findOneByExaminationId(String examinationId);
     List<Examination> findAllByExaminationNameLike(String examinationName);

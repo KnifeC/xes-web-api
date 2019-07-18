@@ -13,7 +13,7 @@ public class Examination {
     @Column(length = 32)
     private String examinationId;
     private String examinationName;
-    private String examinationCreator;
+    private String creatorId;
     private String numberOfPapers;
     private double average;
 
@@ -33,11 +33,11 @@ public class Examination {
         this.examinationName = examinationName;
     }
 
-    public String getExaminationCreator() {
-        return examinationCreator;
+    public String getCreatorId() {
+        return creatorId;
     }
 
-    public void setExaminationCreator(String examinationCreator) {
-        this.examinationCreator = examinationCreator;
+    public void setCreatorId(String creatorId) {
+        this.creatorId = creatorId;
     }
 }

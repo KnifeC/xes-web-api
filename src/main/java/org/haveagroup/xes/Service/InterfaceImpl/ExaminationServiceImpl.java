@@ -1,7 +1,9 @@
 package org.haveagroup.xes.Service.InterfaceImpl;
 
 import org.haveagroup.xes.Dal.Model.Examination;
+import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Dal.Repo.ExaminationRepo;
+import org.haveagroup.xes.Dal.Repo.UserRepo;
 import org.haveagroup.xes.Service.Interfaces.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +14,15 @@ import java.util.List;
 public class ExaminationServiceImpl implements ExaminationService {
     @Autowired
     ExaminationRepo examinationRepo;
+    @Autowired
+    UserRepo userRepo;
 
     @Override
-    public Examination createExamination(String examinationName,String examinationCreator){
+    public Examination createExamination(String examinationName,String creatorId){
         try{
             Examination examination = new Examination();
             examination.setExaminationName(examinationName);
-            examination.setExaminationCreator(examinationCreator);
+            examination.setCreatorId(creatorId);
             examinationRepo.save(examination);
             return examination;
         }catch(Exception e){

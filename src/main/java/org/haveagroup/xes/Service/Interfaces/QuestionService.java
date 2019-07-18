@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface QuestionService {
 
-    Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String questionUploader);
+    Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String uploaderId);
 
     List<Question> findAllByQuestionContentLike(String questionContent);
 

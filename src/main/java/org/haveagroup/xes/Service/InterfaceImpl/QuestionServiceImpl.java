@@ -19,12 +19,13 @@ public class QuestionServiceImpl implements QuestionService {
     RedisUtil redisUtil;
 
     @Override
-    public Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String questionUploader){
+    public Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String uploaderId){
         try{
             Question question = new Question();
             question.setQuestionContent(questionContent);
             question.setQuestionAnswer(questionAnswer);
             question.setQuestionType(questionType);
+            question.setUploaderId(uploaderId);
             questionRepo.save(question);
             return question;
         }catch(Exception e){

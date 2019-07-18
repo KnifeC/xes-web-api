@@ -3,7 +3,9 @@ package org.haveagroup.xes.Web.Controller;
 import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.Examination;
+import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.ExaminationService;
+import org.haveagroup.xes.Service.UserService;
 import org.haveagroup.xes.Web.ResponseJson.ExaminationDataJson;
 import org.haveagroup.xes.Web.ResponseJson.ExaminationJson;
 import org.haveagroup.xes.Web.ResponseJson.StatusJson;
@@ -18,6 +20,8 @@ import java.util.List;
 public class ExaminationController {
     @Autowired
     ExaminationService examinationService;
+    @Autowired
+    UserService userService;
 
     @PostMapping(value="webapi/createExamination")
     public ExaminationJson createExamination(String examinationName, HttpSession session){
@@ -28,12 +32,13 @@ public class ExaminationController {
         if(!session.getAttribute(SessionKey.USER_TYPE).equals("teacher")){
             return new ExaminationJson(new StatusJson(Status.ERROR,"没有权限","THIS"),examinationDataList);
         }
-        String examinationCreator = (String)session.getAttribute(SessionKey.USER_NAME);
-        Examination examination = examinationService.createExamination(examinationName,examinationCreator);
-        ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),examination.getExaminationCreator());
+        String creatorId = (String)session.getAttribute(SessionKey.USER_ID);
+        String creatorName = (String)session.getAttribute(SessionKey.USER_NAME);
+        Examination examination = examinationService.createExamination(examinationName,creatorId);
+        ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),
+                examination.getExaminationName(),creatorId,creatorName);
         examinationDataList.add(examinationData);
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"创建考试","THIS"),examinationDataList);
-
     }
 
     @DeleteMapping(value="webapi/deleteExamination/{examinationId}")
@@ -49,7 +54,9 @@ public class ExaminationController {
         if(examination==null){
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有这门考试","THIS"),examinationByIdList);
         }else{
-            ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),examination.getExaminationCreator());
+            User creator = userService.findByUserId(examination.getCreatorId());
+            ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),
+                    examination.getCreatorId(),creator.getUsername());
             examinationByIdList.add(examinationData);
             return new ExaminationJson(new StatusJson(Status.SUCCESS,"成功找到考试","THIS"),examinationByIdList);
         }
@@ -63,7 +70,9 @@ public class ExaminationController {
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有符合关键字的考试","THIS"),examinationDataList);
         }else{
             for(Examination examination : allByExaminationName){
-                ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),examination.getExaminationCreator());
+                User creator = userService.findByUserId(examination.getCreatorId());
+                ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
+                        examination.getExaminationName(),examination.getCreatorId(),creator.getUsername());
                 examinationDataList.add(examinationDataJson);
             }
             return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示符合关键字的考试","THIS"),examinationDataList);
