@@ -24,7 +24,6 @@ public class ExaminationController {
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
         if(session.getAttribute(SessionKey.USER_TYPE)==null){
             return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);
-
         }
         if(!session.getAttribute(SessionKey.USER_TYPE).equals("teacher")){
             return new ExaminationJson(new StatusJson(Status.ERROR,"没有权限","THIS"),examinationDataList);

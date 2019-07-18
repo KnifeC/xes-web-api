@@ -19,6 +19,21 @@ public class QuestionServiceImpl implements QuestionService {
     RedisUtil redisUtil;
 
     @Override
+    public Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String questionUploader){
+        try{
+            Question question = new Question();
+            question.setQuestionContent(questionContent);
+            question.setQuestionAnswer(questionAnswer);
+            question.setQuestionType(questionType);
+            questionRepo.save(question);
+            return question;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<Question> findAllByQuestionContentLike(String questionContent){
         try{
             List<Question> allByQuestionContent = questionRepo.findAllByQuestionContentLike("%"+questionContent+"%");

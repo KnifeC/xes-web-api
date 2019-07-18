@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface QuestionService {
 
+    Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String questionUploader);
+
     List<Question> findAllByQuestionContentLike(String questionContent);
 
 //    List<Question> findCacheByQuestionContentLike(String questionContent);
