@@ -22,15 +22,18 @@ public class ExaminationController {
     @PostMapping(value="webapi/createExamination")
     public ExaminationJson createExamination(String examinationName, HttpSession session){
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
-        if(session.getAttribute(SessionKey.USER_TYPE).equals("teacher")){
-            String examinationCreator = (String)session.getAttribute(SessionKey.USER_NAME);
-            Examination examination = examinationService.createExamination(examinationName,examinationCreator);
-            ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),examination.getExaminationCreator());
-            examinationDataList.add(examinationData);
-            return new ExaminationJson(new StatusJson(Status.SUCCESS,"创建考试","THIS"),examinationDataList);
-        }else{
-            return new ExaminationJson(new StatusJson(Status.WARNING,"没有权限","THIS"),examinationDataList);
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);
+
         }
+        if(!session.getAttribute(SessionKey.USER_TYPE).equals("teacher")){
+            return new ExaminationJson(new StatusJson(Status.ERROR,"没有权限","THIS"),examinationDataList);
+        }
+        String examinationCreator = (String)session.getAttribute(SessionKey.USER_NAME);
+        Examination examination = examinationService.createExamination(examinationName,examinationCreator);
+        ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),examination.getExaminationCreator());
+        examinationDataList.add(examinationData);
+        return new ExaminationJson(new StatusJson(Status.SUCCESS,"创建考试","THIS"),examinationDataList);
 
     }
 
