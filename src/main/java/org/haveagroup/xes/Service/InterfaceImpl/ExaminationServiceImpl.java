@@ -45,13 +45,12 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public Examination findOneByExaminationId(String examinationId){
         try{
-            Examination OneByExaminationId = examinationRepo.findOneByExaminationId(examinationId);
-            return OneByExaminationId;
+            Examination oneByExaminationId = examinationRepo.findOneByExaminationId(examinationId);
+            return oneByExaminationId;
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
-
     }
 
     @Override
