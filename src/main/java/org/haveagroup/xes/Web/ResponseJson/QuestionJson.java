@@ -8,6 +8,7 @@ public class QuestionJson {
     StatusJson status;
     List<QuestionDataJson> questionDataList;
 
+
     public QuestionJson(){}
 
     public QuestionJson(StatusJson status, List<QuestionDataJson> questionDataList) {

@@ -65,7 +65,7 @@ public class QuestionController {
         if(question==null){
             return new QuestionJson(new StatusJson(Status.WARNING,"没有该Id对应试题","THIS"),questionDataList);
         }else{
-            QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent());
+            QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),question.getQuestionAnswer(),question.getQuestionType(),question.getQuestionUploader());
             questionDataList.add(questionDataJson);
             return new QuestionJson(new StatusJson(Status.SUCCESS,"显示该Id对应试题","THIS"),questionDataList);
         }

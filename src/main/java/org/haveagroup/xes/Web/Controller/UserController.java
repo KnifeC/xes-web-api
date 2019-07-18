@@ -57,7 +57,7 @@ public class UserController {
             return new StatusJson(Status.ERROR,"两次输入的密码不一致","THIS");
         }
         boolean register = userService.register(registerForm.getEmail(), registerForm.getUsername(), registerForm.getPassword());
-        if(register==false) {
+        if(!register) {
             return new StatusJson(Status.ERROR,"注册失败","THIS");
         }
         return new StatusJson(Status.SUCCESS,"注册成功","THIS");
