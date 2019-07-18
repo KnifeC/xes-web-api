@@ -24,8 +24,8 @@ public class ExaminationController {
     UserService userService;
 
 
-    @GetMapping(value="webapi/searchByCreatorId")
-    public ExaminationJson findAllByCreator(String creatorId){
+    @GetMapping(value="webapi/examination/{creatorId}")
+    public ExaminationJson findAllByCreator(@PathVariable("creatorId") String creatorId){
         List<Examination> allByCreator = examinationService.findAllByCreator(creatorId);
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
         if(allByCreator.size()==0){
