@@ -4,10 +4,13 @@ import org.haveagroup.xes.Dal.Model.QuestionBank;
 import java.util.List;
 
 public interface QuestionBankService {
-    QuestionBank createQuestionBank(String questionBankName,String ownerId);
+    QuestionBank createQuestionBank(String questionBankName,String ownerId,String visibility);
     boolean deleteQuestionBank(String questionBankId,String ownerId);
-    //QuestionBank findOneByQuestionBankId(String questionBankId);
-    //List<QuestionBank> findAllByQuestionBankNameLike(String questionBankName);
+
+    QuestionBank editQuestionBankName(String questionBankId,String questionBankName);
+    QuestionBank editVisibility(String questionBankId,String visibility);
+    QuestionBank findOneByQuestionBankId(String questionBankId);
+    List<QuestionBank> findAllByQuestionBankNameLike(String questionBankName);
 
 
 }

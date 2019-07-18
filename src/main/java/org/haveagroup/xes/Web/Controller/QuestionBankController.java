@@ -3,18 +3,24 @@ package org.haveagroup.xes.Web.Controller;
 import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.QuestionBank;
+import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.QuestionBankService;
 import org.haveagroup.xes.Service.Interfaces.Question_QuestionBankService;
+import org.haveagroup.xes.Service.UserService;
+import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.ResponseJson.QuestionBankDataJson;
 import org.haveagroup.xes.Web.ResponseJson.QuestionBankJson;
 import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class QuestionBankController {
@@ -23,20 +29,69 @@ public class QuestionBankController {
 
     @Autowired
     QuestionBankService questionBankService;
+    @Autowired
+    UserService userService;
 
     @PostMapping(value="webapi/createQuestionBank")
-    public QuestionBankJson createQuestionBank(String questionBankName, HttpSession session){
+    public QuestionBankJson createQuestionBank(String questionBankName,String visibility,HttpSession session){
         List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
         if(session.getAttribute(SessionKey.USER_TYPE)==null){
             return new QuestionBankJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),questionBankDataList);
         }
         String ownerId = (String)session.getAttribute(SessionKey.USER_ID);
         String ownerName = (String)session.getAttribute(SessionKey.USER_NAME);
-        QuestionBank questionBank = questionBankService.createQuestionBank(questionBankName,ownerId);
+        QuestionBank questionBank = questionBankService.createQuestionBank(questionBankName,ownerId,visibility);
         QuestionBankDataJson questionBankData = new QuestionBankDataJson(questionBank.getQuestionBankId(),
-                questionBank.getQuestionBankName(),ownerId,ownerName);
+                questionBank.getQuestionBankName(),ownerId,ownerName,visibility);
         questionBankDataList.add(questionBankData);
-        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"创建考试","THIS"),questionBankDataList);
+        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"创建题库","THIS"),questionBankDataList);
+    }
+
+    @GetMapping(value="webapi/questionBank/{questionBankId}")
+    public QuestionBankJson findOneByQuestionBankId(@PathVariable("questionBankId") String questionBankId){
+        List<QuestionBankDataJson> questionBankByIdList = new ArrayList<>();
+        QuestionBank questionBank = questionBankService.findOneByQuestionBankId(questionBankId);
+        if(questionBank==null){
+            return new QuestionBankJson(new StatusJson(Status.ERROR,"抱歉！您没有权限访问该资源或该资源已不存在！","THIS"),questionBankByIdList);
+        }
+        if(!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
+            return new QuestionBankJson(new StatusJson(Status.ERROR,"抱歉！您没有权限访问该资源或该资源已不存在！","THIS"),questionBankByIdList);
+        }
+        User owner = userService.findByUserId(questionBank.getOwnerId());
+        QuestionBankDataJson examinationData = new QuestionBankDataJson(questionBank.getQuestionBankId(),questionBank.getQuestionBankName(),
+                questionBank.getOwnerId(),owner.getUsername(),questionBank.getVisibility());
+        questionBankByIdList.add(examinationData);
+        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"成功找到题库","THIS"),questionBankByIdList);
+    }
+
+    @GetMapping(value="webapi/searchQuestionBank/{questionBankName}")
+    public QuestionBankJson findAllByQuestionBankName(@PathVariable("questionBankName") String questionBankName){
+        List<QuestionBank> allByQuestionBankName = questionBankService.findAllByQuestionBankNameLike(questionBankName);
+        List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
+        if(allByQuestionBankName.size()==0) {
+            return new QuestionBankJson(new StatusJson(Status.WARNING, "抱歉！您没有权限访问该资源或该资源已不存在！", "THIS"), questionBankDataList);
+        }
+        for(QuestionBank questionBank : allByQuestionBankName){
+            if(!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
+                continue;
+            }
+            User owner = userService.findByUserId(questionBank.getOwnerId());
+            QuestionBankDataJson questionBankDataJson = new QuestionBankDataJson(questionBank.getQuestionBankId(),
+                    questionBank.getQuestionBankName(),questionBank.getOwnerId(),owner.getUsername(),questionBank.getVisibility());
+            questionBankDataList.add(questionBankDataJson);
+        }
+        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"显示符合关键字的题库","THIS"),questionBankDataList);
+    }
+
+    @PostMapping(value="webapi/editBankInfo")
+    public StatusJson editQuestionBankInfo(String questionBankId,String questionBankName,String visibility){
+        if(questionBankService.editQuestionBankName(questionBankId,questionBankName)==null){
+            return new StatusJson(Status.SUCCESS,"修改名称失败","THIS");
+        }
+        if(questionBankService.editVisibility(questionBankId,visibility)==null){
+            return new StatusJson(Status.SUCCESS,"修改可见性失败","THIS");
+        }
+        return new StatusJson(Status.ERROR,"修改失败","THIS");
     }
 
 //    @PostMapping(value="webapi/addToBank")

@@ -8,18 +8,21 @@ public class QuestionBankDataJson {
     private String questionBankName;
     private String ownerId;
     private String ownerName;
-
-    public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId) {
-        this.questionBankId = questionBankId;
-        this.questionBankName = questionBankName;
-        this.ownerId = ownerId;
-    }
+    private String visibility;
 
     public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId, String ownerName) {
         this.questionBankId = questionBankId;
         this.questionBankName = questionBankName;
         this.ownerId = ownerId;
         this.ownerName = ownerName;
+    }
+
+    public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId, String ownerName, String visibility) {
+        this.questionBankId = questionBankId;
+        this.questionBankName = questionBankName;
+        this.ownerId = ownerId;
+        this.ownerName = ownerName;
+        this.visibility = visibility;
     }
 
     public String getQuestionBankId() {

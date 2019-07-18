@@ -63,4 +63,16 @@ public class ExaminationServiceImpl implements ExaminationService {
             return null;
         }
     }
+
+    @Override
+    public List<Examination> findAllByCreator(String creatorId){
+        try{
+            List<Examination> allByCreatorId = examinationRepo.findAllByCreatorId(creatorId);
+            return allByCreatorId;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

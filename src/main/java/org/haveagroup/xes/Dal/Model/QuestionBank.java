@@ -14,7 +14,7 @@ public class QuestionBank {
     private String questionBankId;
     private String questionBankName;
     private String ownerId;
-    private boolean visible=true;
+    private String visibility="公开";
 
     public String getQuestionBankId() {
         return questionBankId;
@@ -40,11 +40,11 @@ public class QuestionBank {
         this.ownerId = ownerId;
     }
 
-    public boolean isVisible() {
-        return visible;
+    public String getVisibility() {
+        return visibility;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }

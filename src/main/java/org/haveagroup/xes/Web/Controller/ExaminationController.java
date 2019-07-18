@@ -23,6 +23,24 @@ public class ExaminationController {
     @Autowired
     UserService userService;
 
+
+    @GetMapping(value="webapi/searchByCreatorId")
+    public ExaminationJson findAllByCreator(String creatorId){
+        List<Examination> allByCreator = examinationService.findAllByCreator(creatorId);
+        List<ExaminationDataJson> examinationDataList = new ArrayList<>();
+        if(allByCreator.size()==0){
+            return new ExaminationJson(new StatusJson(Status.WARNING,"没有符合关键字的考试","THIS"),examinationDataList);
+        }else{
+            for(Examination examination : allByCreator){
+                User creator = userService.findByUserId(examination.getCreatorId());
+                ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
+                        examination.getExaminationName(),examination.getCreatorId(),creator.getUsername());
+                examinationDataList.add(examinationDataJson);
+            }
+            return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示符合关键字的考试","THIS"),examinationDataList);
+        }
+    }
+
     @PostMapping(value="webapi/createExamination")
     public ExaminationJson createExamination(String examinationName, HttpSession session){
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
@@ -47,7 +65,7 @@ public class ExaminationController {
         return true;
     }
 
-    @GetMapping(value="webapi/searchOneExamination/{examinationId}")
+    @GetMapping(value="webapi/examination/{examinationId}")
     public ExaminationJson findOneByExaminationId(@PathVariable("examinationId") String examinationId){
         List<ExaminationDataJson> examinationByIdList = new ArrayList<>();
         Examination examination = examinationService.findOneByExaminationId(examinationId);
@@ -62,7 +80,7 @@ public class ExaminationController {
         }
     }
 
-    @GetMapping(value="webapi/searchAllExamination/{examinationName}")
+    @GetMapping(value="webapi/searchExamination/{examinationName}")
     public ExaminationJson findAllByExaminationName(@PathVariable("examinationName") String examinationName){
         List<Examination> allByExaminationName = examinationService.findAllByExaminationNameLike(examinationName);
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();

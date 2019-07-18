@@ -10,4 +10,6 @@ public interface ExaminationService {
     boolean deleteExamination(String examinationId);
     Examination findOneByExaminationId(String examinationId);
     List<Examination> findAllByExaminationNameLike(String examinationName);
+    List<Examination> findAllByCreator(String creatorId);
+
 }
