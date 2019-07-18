@@ -2,13 +2,12 @@ package org.haveagroup.xes.Web.Controller;
 
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.Paper;
-import org.haveagroup.xes.Dal.Model.Paper_Question;
 import org.haveagroup.xes.Dal.Model.Question;
 import org.haveagroup.xes.Service.Interfaces.PaperQuestionService;
 import org.haveagroup.xes.Service.Interfaces.PaperService;
 import org.haveagroup.xes.Service.Interfaces.QuestionService;
+import org.haveagroup.xes.Web.ResponseJson.PaperDataJson;
 import org.haveagroup.xes.Web.ResponseJson.PaperJson;
-import org.haveagroup.xes.Web.ResponseJson.PaperQuestionJson;
 import org.haveagroup.xes.Web.ResponseJson.StatusJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,21 +30,21 @@ public class PaperController {
     @PostMapping(value="webapi/createPaper")
     public PaperJson createPaper(String examinationId, String examinationName){
         Paper paper = paperService.createPaper(examinationId,examinationName);
-        return new PaperJson(new StatusJson(Status.SUCCESS,"创建试卷","THIS"),paper.getPaperId());
+        return new PaperJson(new StatusJson(Status.SUCCESS,"创建试卷","THIS"),new PaperDataJson(paper.getPaperId()));
     }
 
     @GetMapping(value="webapi/showPaper/{paperId}")
-    public PaperQuestionJson showPaper(@PathVariable("paperId") String paperId){
+    public PaperJson showPaper(@PathVariable("paperId") String paperId){
         List<String> showQuestionIds = paperQuestionService.findQuestionIdByPaperId(paperId);
         List<Question> showQuestions = new ArrayList<>();
         for(String questionId : showQuestionIds){
             showQuestions.add(questionService.findByQuestionId(questionId));
         }
-        return new PaperQuestionJson(new StatusJson(Status.SUCCESS,"显示试卷","THIS"),paperId,showQuestionIds,showQuestions);
+        return new PaperJson(new StatusJson(Status.SUCCESS,"显示试卷","THIS"),new PaperDataJson(paperId,showQuestionIds,showQuestions));
     }
 
     @PostMapping(value="webapi/addQuestion/{questionId}")
-    public PaperQuestionJson addQuestionToPaper(@PathVariable("questionId") String questionId,String paperId){
+    public PaperJson addQuestionToPaper(@PathVariable("questionId") String questionId,String paperId){
         List<String> addedQuestionIdList = paperQuestionService.findQuestionIdByPaperId(paperId);
         addedQuestionIdList.add(questionId);
 
@@ -55,7 +54,6 @@ public class PaperController {
             addedQuestionList.add(addedQuestion);
         }
         boolean addQuestionToPaper = paperQuestionService.addQuestionToPaper(paperId,questionId);
-
-        return new PaperQuestionJson(new StatusJson(Status.SUCCESS,"向该试卷中添加试题","THIS"),paperId,addedQuestionIdList,addedQuestionList);
+        return new PaperJson(new StatusJson(Status.SUCCESS,"向该试卷中添加试题","THIS"),new PaperDataJson(paperId,addedQuestionIdList,addedQuestionList));
     }
 }

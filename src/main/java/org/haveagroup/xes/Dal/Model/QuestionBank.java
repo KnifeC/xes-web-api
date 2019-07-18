@@ -11,25 +11,25 @@ public class QuestionBank {
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
-    private String bankId;
-    private String bankName;
+    private String questionBankId;
+    private String questionBankName;
     private String userId;
     private boolean visible=true;
 
-    public String getBankId() {
-        return bankId;
+    public String getQuestionBankId() {
+        return questionBankId;
     }
 
-    public void setBankId(String bankId) {
-        this.bankId = bankId;
+    public void setQuestionBankId(String questionBankId) {
+        this.questionBankId = questionBankId;
     }
 
-    public String getBankName() {
-        return bankName;
+    public String getQuestionBankName() {
+        return questionBankName;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public void setQuestionBankName(String questionBankName) {
+        this.questionBankName = questionBankName;
     }
 
     public String getUserId() {

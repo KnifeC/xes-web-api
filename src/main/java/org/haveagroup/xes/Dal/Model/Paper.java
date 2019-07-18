@@ -12,6 +12,7 @@ public class Paper {
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
     private String paperId;
+    private String paperName;
     private String examinationId;
     private String examinationnName;
     private double averageScoreOfPaper;

@@ -6,16 +6,13 @@ import java.util.List;
 
 public class QuestionJson {
     StatusJson status;
+    List<QuestionDataJson> questionDataList;
 
-    List<String> questionIdList;
-    List<Question> questionList;
-    List<String> questionContentList;
+    public QuestionJson(){}
 
-
-    public QuestionJson(StatusJson status, List<String> questionIdList, List<Question> questionList) {
+    public QuestionJson(StatusJson status, List<QuestionDataJson> questionDataList) {
         this.status = status;
-        this.questionIdList = questionIdList;
-        this.questionList = questionList;
+        this.questionDataList = questionDataList;
     }
 
     public StatusJson getStatus() {
@@ -26,27 +23,11 @@ public class QuestionJson {
         this.status = status;
     }
 
-    public List<String> getQuestionIdList() {
-        return questionIdList;
+    public List<QuestionDataJson> getQuestionDataList() {
+        return questionDataList;
     }
 
-    public void setQuestionIdList(List<String> questionIdList) {
-        this.questionIdList = questionIdList;
-    }
-
-    public List<Question> getQuestionList() {
-        return questionList;
-    }
-
-    public void setQuestionList(List<Question> questionList) {
-        this.questionList = questionList;
-    }
-
-    public List<String> getQuestionContentList() {
-        return questionContentList;
-    }
-
-    public void setQuestionContentList(List<String> questionContentList) {
-        this.questionContentList = questionContentList;
+    public void setQuestionDataList(List<QuestionDataJson> questionDataList) {
+        this.questionDataList = questionDataList;
     }
 }

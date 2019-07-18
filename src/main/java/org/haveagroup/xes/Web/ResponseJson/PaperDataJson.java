@@ -4,25 +4,19 @@ import org.haveagroup.xes.Dal.Model.Question;
 
 import java.util.List;
 
-public class PaperQuestionJson {
-    StatusJson status;
+public class PaperDataJson {
     String paperId;
     List<String> questionIdList;
     List<Question> questionList;
 
-    public PaperQuestionJson(StatusJson status, String paperId, List<String> questionIdList, List<Question> questionList) {
-        this.status = status;
+    public PaperDataJson(String paperId) {
+        this.paperId = paperId;
+    }
+
+    public PaperDataJson(String paperId, List<String> questionIdList, List<Question> questionList) {
         this.paperId = paperId;
         this.questionIdList = questionIdList;
         this.questionList = questionList;
-    }
-
-    public StatusJson getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusJson status) {
-        this.status = status;
     }
 
     public String getPaperId() {
