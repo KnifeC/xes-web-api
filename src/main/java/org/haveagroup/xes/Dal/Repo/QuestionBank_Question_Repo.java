@@ -1,7 +1,5 @@
 package org.haveagroup.xes.Dal.Repo;
 
-import org.haveagroup.xes.Dal.Model.Question;
-import org.haveagroup.xes.Dal.Model.QuestionBank;
 import org.haveagroup.xes.Dal.Model.QuestionBank_Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 

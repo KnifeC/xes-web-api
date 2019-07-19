@@ -3,8 +3,10 @@ package org.haveagroup.xes.Web.Controller;
 import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.Question;
+import org.haveagroup.xes.Dal.Model.Question_Tag;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.QuestionService;
+import org.haveagroup.xes.Service.Interfaces.Question_Tag_Service;
 import org.haveagroup.xes.Service.UserService;
 import org.haveagroup.xes.Web.Forms.UploadForm;
 import org.haveagroup.xes.Web.ResponseJson.QuestionDataJson;
@@ -26,6 +28,10 @@ public class QuestionController {
     QuestionService questionService;
     @Autowired
     UserService userService;
+    @Autowired
+    Question_Tag_Service question_tag_service;
+
+
 
     @PostMapping(value="webapi/uploadQuestion")
     public QuestionJson uploadQuestion(UploadForm uploadForm, HttpSession session){
@@ -70,14 +76,30 @@ public class QuestionController {
         List<QuestionDataJson> questionDataList = new ArrayList<>();
         if(allByQuestionContent.size()==0){
             return new QuestionJson(new StatusJson(Status.WARNING,"没有符合关键字的试题","THIS"),questionDataList);
-        }else{
-            for(Question question : allByQuestionContent){
-                User uploader = userService.findByUserId(question.getUploaderId());
-                QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
-                        question.getUploaderId(),uploader.getUsername());
-                questionDataList.add(questionDataJson);
-            }
-            return new QuestionJson(new StatusJson(Status.SUCCESS,"显示符合关键字的试题","THIS"),questionDataList);
         }
+        for(Question question : allByQuestionContent){
+            User uploader = userService.findByUserId(question.getUploaderId());
+            QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
+                    question.getUploaderId(),uploader.getUsername());
+            questionDataList.add(questionDataJson);
+        }
+        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示符合关键字的试题","THIS"),questionDataList);
+
+    }
+
+    @GetMapping(value="webapi/searchQuestion/byTag/{tagName}")
+    public QuestionJson searchQuestionByTag(@PathVariable("tagName") String tagName,HttpSession session){
+        List<Question> allByTag = question_tag_service.findByTagName(tagName);
+        List<QuestionDataJson> questionDataList = new ArrayList<>();
+        if(allByTag.size()==0){
+            return new QuestionJson(new StatusJson(Status.WARNING,"没有符合标签的试题","THIS"),questionDataList);
+        }
+        for(Question question : allByTag){
+            User uploader = userService.findByUserId(question.getUploaderId());
+            QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
+                    question.getUploaderId(),uploader.getUsername());
+            questionDataList.add(questionDataJson);
+        }
+        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示符合标签的试题","THIS"),questionDataList);
     }
 }

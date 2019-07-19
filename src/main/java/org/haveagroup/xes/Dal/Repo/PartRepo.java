@@ -4,4 +4,6 @@ import org.haveagroup.xes.Dal.Model.Part;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PartRepo extends JpaRepository<Part,String> {
+    //Part createPart(String partName);
+    Part findByPartId(String partId);
 }
