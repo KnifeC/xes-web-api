@@ -4,6 +4,7 @@ import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.Question;
 import org.haveagroup.xes.Dal.Model.QuestionBank;
+import org.haveagroup.xes.Dal.Model.QuestionBank_Question;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.QuestionBankService;
 import org.haveagroup.xes.Service.Interfaces.QuestionBank_Question_Service;
@@ -142,28 +143,37 @@ public class QuestionBankController {
 
     @GetMapping(value="webapi/showQuestion/fromBank/{questionBankId}")
     public QuestionBank_Question_Json showQuestion(@PathVariable("questionBankId") String questionBankId){
-        QuestionBank questionBank = questionBankService.findOneByQuestionBankId(questionBankId);
         List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
+        List<QuestionDataJson> questionDataList = new ArrayList<>();
+        QuestionBank questionBank = questionBankService.findOneByQuestionBankId(questionBankId);
+        if(questionBank==null){
+            return new QuestionBank_Question_Json(new StatusJson(Status.ERROR,"没有这个题库！","THIS"),questionBankDataList,questionDataList);
+        }
         QuestionBankDataJson questionBankDataJson = new QuestionBankDataJson(questionBank.getQuestionBankId(),questionBank.getQuestionBankName(),
                 questionBank.getOwnerId(),userService.findByUserId(questionBank.getOwnerId()).getUsername(),
                 questionBank.getVisibility());
         questionBankDataList.add(questionBankDataJson);
-
         List<Question> allQuestionFromQuestionBank = questionBank_question_service.findAllQuestionByQuestionBankId(questionBankId);
-        List<QuestionDataJson> questionDataList = new ArrayList<>();
+        if(allQuestionFromQuestionBank.size()==0){
+            return new QuestionBank_Question_Json(new StatusJson(Status.WARNING,"这个题库没题！","THIS"),questionBankDataList,questionDataList);
+
+        }
         for(Question question : allQuestionFromQuestionBank){
             QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
                     question.getQuestionAnswer(),question.getQuestionType(),
                     question.getUploaderId(),userService.findByUserId(question.getUploaderId()).getUsername());
             questionDataList.add(questionDataJson);
         }
-        return new QuestionBank_Question_Json(new StatusJson(Status.SUCCESS,"该题库的题","THIS"),questionBankDataList,questionDataList);
+        return new QuestionBank_Question_Json(new StatusJson(Status.SUCCESS,"该题库的题！","THIS"),questionBankDataList,questionDataList);
     }
 
 
-//    @PostMapping(value="webapi/addQuestion/toBank")
-//    public QuestionBankJson addQuestionToQuestionBank(String questionBankId, String questionId){
-//        question_questionBankService.addQuestionToQuestionBank(questionBankId,questionId);
-//        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"添加试题到题库中","THIS"),new QuestionBankDataJson());
-//    }
+    @PostMapping(value="webapi/addQuestion/toBank")
+    public StatusJson addQuestionToQuestionBank(String questionBankId, String questionId){
+        QuestionBank_Question qb_q = questionBank_question_service.addQuestionToQuestionBank(questionBankId,questionId);
+        if(qb_q==null){
+            return new StatusJson(Status.ERROR,"添加失败","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"添加成功","THIS");
+    }
 }
