@@ -13,10 +13,7 @@ import org.haveagroup.xes.Service.UserService;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.ResponseJson.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -47,6 +44,18 @@ public class QuestionBankController {
                 questionBank.getQuestionBankName(),ownerId,ownerName,visibility);
         questionBankDataList.add(questionBankData);
         return new QuestionBankJson(new StatusJson(Status.SUCCESS,"创建题库","THIS"),questionBankDataList);
+    }
+
+    @DeleteMapping(value="webapi/deleteQuestionBank")
+    public StatusJson deleteQuestionBank(String questionBankId,HttpSession session){
+        String ownerId = questionBankService.findOneByQuestionBankId(questionBankId).getOwnerId();
+        if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),ownerId)){
+            return new StatusJson(Status.ERROR,"用户信息不正确","THIS");
+        }
+        if(questionBankService.deleteQuestionBank(questionBankId,ownerId)){
+            return new StatusJson(Status.ERROR,"删除失败","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"删除成功","THIS");
     }
 
     @GetMapping(value="webapi/questionBank/{questionBankId}")
@@ -113,7 +122,6 @@ public class QuestionBankController {
         return new QuestionBankJson(new StatusJson(Status.SUCCESS,"显示自己的题库","THIS"),questionBankDataList);
     }
 
-
     @GetMapping(value="webapi/searchQuestionBank/byOwnerId/{ownerId}")
     public QuestionBankJson findAllByOwnerId(@PathVariable("ownerId") String ownerId){
         List<QuestionBank> allByOwnerId = questionBankService.findAllByOwnerIdAndVisibility(ownerId);
@@ -169,11 +177,23 @@ public class QuestionBankController {
 
 
     @PostMapping(value="webapi/addQuestion/toBank")
-    public StatusJson addQuestionToQuestionBank(String questionBankId, String questionId){
-        QuestionBank_Question qb_q = questionBank_question_service.addQuestionToQuestionBank(questionBankId,questionId);
+    public StatusJson addQuestionToQuestionBank(String questionId, String questionBankId){
+        Question question = questionService.findByQuestionId(questionId);
+        if(question==null){
+            return new StatusJson(Status.ERROR,"没有这个题","THIS");
+        }
+        QuestionBank_Question qb_q = questionBank_question_service.addQuestionToQuestionBank(questionId,questionBankId);
         if(qb_q==null){
             return new StatusJson(Status.ERROR,"添加失败","THIS");
         }
         return new StatusJson(Status.SUCCESS,"添加成功","THIS");
+    }
+
+    @PostMapping(value="webapi/deleteQuestion/fromBank")
+    public StatusJson deleteQuestionFromQuestionBank(String questionId,String questionBankId){
+        if(!questionBank_question_service.deleteQuestionFromQuestionBank(questionId,questionBankId)){
+            return new StatusJson(Status.SUCCESS,"删除失败","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"删除成功","THIS");
     }
 }

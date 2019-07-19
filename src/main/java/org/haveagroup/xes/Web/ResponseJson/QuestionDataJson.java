@@ -13,6 +13,10 @@ public class QuestionDataJson {
     public QuestionDataJson() {
     }
 
+    public QuestionDataJson(String questionContent, String questionType) {
+        this.questionContent = questionContent;
+        this.questionType = questionType;
+    }
 
     public QuestionDataJson(String questionId, String questionContent, String uploaderId, String uploaderName) {
         this.questionId = questionId;

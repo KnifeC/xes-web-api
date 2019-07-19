@@ -2,16 +2,18 @@ package org.haveagroup.xes.Web.ResponseJson;
 
 import java.util.List;
 
-public class PaperJson {
+public class Paper_Question_Json {
     StatusJson status;
     List<PaperDataJson> paperDataList;
+    List<QuestionDataJson> questionDataList;
 
-    public PaperJson() {
+    public Paper_Question_Json() {
     }
 
-    public PaperJson(StatusJson status, List<PaperDataJson> paperDataList) {
+    public Paper_Question_Json(StatusJson status, List<PaperDataJson> paperDataList, List<QuestionDataJson> questionDataList) {
         this.status = status;
         this.paperDataList = paperDataList;
+        this.questionDataList = questionDataList;
     }
 
     public StatusJson getStatus() {
@@ -28,5 +30,13 @@ public class PaperJson {
 
     public void setPaperDataList(List<PaperDataJson> paperDataList) {
         this.paperDataList = paperDataList;
+    }
+
+    public List<QuestionDataJson> getQuestionDataList() {
+        return questionDataList;
+    }
+
+    public void setQuestionDataList(List<QuestionDataJson> questionDataList) {
+        this.questionDataList = questionDataList;
     }
 }

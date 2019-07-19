@@ -1,22 +1,19 @@
 package org.haveagroup.xes.Web.ResponseJson;
 
-import org.haveagroup.xes.Dal.Model.Question;
-
-import java.util.List;
-
 public class PaperDataJson {
-    String paperId;
-    List<String> questionIdList;
-    List<Question> questionList;
+    private String paperId;
+    private String paperName;
+    private String ExaminationId;
+    private String ExaminationName;
 
-    public PaperDataJson(String paperId) {
-        this.paperId = paperId;
+    public PaperDataJson() {
     }
 
-    public PaperDataJson(String paperId, List<String> questionIdList, List<Question> questionList) {
+    public PaperDataJson(String paperId, String paperName, String examinationId, String examinationName) {
         this.paperId = paperId;
-        this.questionIdList = questionIdList;
-        this.questionList = questionList;
+        this.paperName = paperName;
+        ExaminationId = examinationId;
+        ExaminationName = examinationName;
     }
 
     public String getPaperId() {
@@ -27,19 +24,27 @@ public class PaperDataJson {
         this.paperId = paperId;
     }
 
-    public List<String> getQuestionIdList() {
-        return questionIdList;
+    public String getPaperName() {
+        return paperName;
     }
 
-    public void setQuestionIdList(List<String> questionIdList) {
-        this.questionIdList = questionIdList;
+    public void setPaperName(String paperName) {
+        this.paperName = paperName;
     }
 
-    public List<Question> getQuestionList() {
-        return questionList;
+    public String getExaminationId() {
+        return ExaminationId;
     }
 
-    public void setQuestionList(List<Question> questionList) {
-        this.questionList = questionList;
+    public void setExaminationId(String examinationId) {
+        ExaminationId = examinationId;
+    }
+
+    public String getExaminationName() {
+        return ExaminationName;
+    }
+
+    public void setExaminationName(String examinationName) {
+        ExaminationName = examinationName;
     }
 }

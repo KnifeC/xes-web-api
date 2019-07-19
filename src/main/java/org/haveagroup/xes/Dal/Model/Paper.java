@@ -15,6 +15,7 @@ public class Paper {
     private String paperName;
     private String examinationId;
     private String examinationName;
+
     private double averageScoreOfPaper;
 
     public String getPaperId() {
