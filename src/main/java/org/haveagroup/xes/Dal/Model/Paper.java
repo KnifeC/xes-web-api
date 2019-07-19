@@ -14,7 +14,7 @@ public class Paper {
     private String paperId;
     private String paperName;
     private String examinationId;
-    private String examinationnName;
+    private String examinationName;
     private double averageScoreOfPaper;
 
     public String getPaperId() {
@@ -25,6 +25,14 @@ public class Paper {
         this.paperId = paperId;
     }
 
+    public String getPaperName() {
+        return paperName;
+    }
+
+    public void setPaperName(String paperName) {
+        this.paperName = paperName;
+    }
+
     public String getExaminationId() {
         return examinationId;
     }
@@ -33,11 +41,11 @@ public class Paper {
         this.examinationId = examinationId;
     }
 
-    public String getExaminationnName() {
-        return examinationnName;
+    public String getExaminationName() {
+        return examinationName;
     }
 
-    public void setExaminationnName(String examinationnName) {
-        this.examinationnName = examinationnName;
+    public void setExaminationName(String examinationName) {
+        this.examinationName = examinationName;
     }
 }

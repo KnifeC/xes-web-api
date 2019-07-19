@@ -11,9 +11,9 @@ public class QuestionBank_Question {
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
-    String questionBank_question_id;
-    String questionBankId;
-    String questionId;
+    private String questionBank_question_id;
+    private String questionBankId;
+    private String questionId;
 
     public String getQuestionBank_question_id() {
         return questionBank_question_id;

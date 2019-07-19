@@ -16,7 +16,7 @@ public class PaperServiceImpl implements PaperService {
         try{
             Paper paper = new Paper();
             paper.setExaminationId(examinationId);
-            paper.setExaminationnName(examinationName);
+            paper.setExaminationName(examinationName);
             paperRepo.save(paper);
             return paper;
         }catch(Exception e){

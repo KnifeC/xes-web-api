@@ -63,6 +63,12 @@ public class UserController {
         return new StatusJson(Status.SUCCESS,"注册成功","THIS");
     }
 
+    @GetMapping(value="webapi/logout")
+    public StatusJson logout(HttpSession session){
+        session.invalidate();
+        return new StatusJson(Status.SUCCESS,"登出成功","THIS");
+    }
+
     @PostMapping(value="webapi/editInfo")
     public UserJson editInfo(EditForm editForm,HttpSession session){
 

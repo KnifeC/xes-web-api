@@ -115,9 +115,12 @@ public class ExaminationController {
     }
 
     @GetMapping(value="webapi/searchExamination/byUserId/{userId}")
-    public ExaminationJson findAllExaminationByUserId(@PathVariable("userId") String userId){
-        List<Examination> allExaminationByUserId = examination_user_service.findAllExaminationByUserId(userId);
+    public ExaminationJson findAllExaminationByUserId(@PathVariable("userId") String userId,HttpSession session){
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);
+        }
+        List<Examination> allExaminationByUserId = examination_user_service.findAllExaminationByUserId(userId);
         if(allExaminationByUserId.size()==0){
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有该用户参与的考试","THIS"),examinationDataList);
         }
@@ -125,6 +128,26 @@ public class ExaminationController {
             User creator = userService.findByUserId(examination.getCreatorId());
             ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                     examination.getExaminationName(),examination.getCreatorId(),creator.getUsername());
+            examinationDataList.add(examinationDataJson);
+        }
+        return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示该用户参与的考试","THIS"),examinationDataList);
+    }
+
+    @GetMapping(value="webapi/searchExamination/byActiveUser")
+    public ExaminationJson findAllByUserId(HttpSession session){
+        List<ExaminationDataJson> examinationDataList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);
+        }
+        String userId = (String)session.getAttribute(SessionKey.USER_ID);
+        List<Examination> allExaminationByUserId = examination_user_service.findAllExaminationByUserId(userId);
+        if(allExaminationByUserId.size()==0){
+            return new ExaminationJson(new StatusJson(Status.WARNING,"没有该用户参与的考试","THIS"),examinationDataList);
+        }
+        for(Examination examination : allExaminationByUserId){
+            User creator = userService.findByUserId(examination.getCreatorId());
+            ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
+                    examination.getExaminationName(), examination.getCreatorId(), creator.getUsername());
             examinationDataList.add(examinationDataJson);
         }
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示该用户参与的考试","THIS"),examinationDataList);

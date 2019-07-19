@@ -6,4 +6,5 @@ public class Answers implements Serializable {
     private String answerId;
     private String questionId;
 
+
 }
