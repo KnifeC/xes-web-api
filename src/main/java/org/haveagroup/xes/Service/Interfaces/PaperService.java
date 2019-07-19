@@ -5,4 +5,6 @@ import org.haveagroup.xes.Dal.Model.Paper;
 public interface PaperService {
     Paper createPaper(String examinationId,String paperId);
 
+
+
 }

@@ -43,7 +43,8 @@ public class QuestionController {
         if(question==null){
             return new QuestionJson(new StatusJson(Status.ERROR,"上传失败","THIS"),questionDataList);
         }
-        QuestionDataJson questionData = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),uploaderId,uploaderName);
+        QuestionDataJson questionData = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
+                question.getQuestionAnswer(),question.getQuestionType(),uploaderId,uploaderName);
         questionDataList.add(questionData);
         return new QuestionJson(new StatusJson(Status.SUCCESS,"上传试题","THIS"),questionDataList);
     }
