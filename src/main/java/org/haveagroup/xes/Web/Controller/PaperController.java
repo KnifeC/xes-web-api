@@ -43,7 +43,7 @@ public class PaperController {
         return new PaperJson(new StatusJson(Status.SUCCESS,"显示试卷","THIS"),new PaperDataJson(paperId,showQuestionIds,showQuestions));
     }
 
-    @PostMapping(value="webapi/addQuestion/{questionId}")
+    @PostMapping(value="webapi/addQuestion/toPaper/{questionId}")
     public PaperJson addQuestionToPaper(@PathVariable("questionId") String questionId,String paperId){
         List<String> addedQuestionIdList = paperQuestionService.findQuestionIdByPaperId(paperId);
         addedQuestionIdList.add(questionId);

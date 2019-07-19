@@ -9,8 +9,15 @@ public interface QuestionBankService {
 
     QuestionBank editQuestionBankName(String questionBankId,String questionBankName);
     QuestionBank editVisibility(String questionBankId,String visibility);
+
     QuestionBank findOneByQuestionBankId(String questionBankId);
+    QuestionBank findOneByQuestionBankIdAndVisibility(String questionBankId,String visibility);
+    //QuestionBank findOneByQuestionBankIdAnd
+
     List<QuestionBank> findAllByQuestionBankNameLike(String questionBankName);
+
+    List<QuestionBank> findAllByOwnerId(String ownerId);
+    List<QuestionBank> findAllByOwnerIdAndVisibility(String ownerId);
 
 
 }

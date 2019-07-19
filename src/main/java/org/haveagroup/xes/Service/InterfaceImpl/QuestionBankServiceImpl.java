@@ -66,10 +66,21 @@ public class QuestionBankServiceImpl implements QuestionBankService {
     }
 
     @Override
-    public QuestionBank findOneByQuestionBankId(String examinationId){
+    public QuestionBank findOneByQuestionBankId(String questionBankId){
         try{
-            QuestionBank oneByQuestionBankId = questionBankRepo.findOneByQuestionBankId(examinationId);
+            QuestionBank oneByQuestionBankId = questionBankRepo.findOneByQuestionBankId(questionBankId);
             return oneByQuestionBankId;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public QuestionBank findOneByQuestionBankIdAndVisibility(String questionBankId,String visibility){
+        try{
+            QuestionBank OneByQuestionBankIdAndVisibility = questionBankRepo.findOneByQuestionBankIdAndVisibility(questionBankId,visibility);
+            return OneByQuestionBankIdAndVisibility;
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -81,6 +92,28 @@ public class QuestionBankServiceImpl implements QuestionBankService {
         try{
             List<QuestionBank> allByQuestionBankNameLike = questionBankRepo.findAllByQuestionBankNameLike("%"+questionBankName+"%");
             return allByQuestionBankNameLike;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<QuestionBank> findAllByOwnerId(String ownerId){
+        try{
+            List<QuestionBank> allByOwnerId = questionBankRepo.findAllByOwnerId(ownerId);
+            return allByOwnerId;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<QuestionBank> findAllByOwnerIdAndVisibility(String ownerId){
+        try{
+            List<QuestionBank> allByOwnerIdAndVisibility = questionBankRepo.findAllByOwnerIdAndVisibility(ownerId,"公开");
+            return allByOwnerIdAndVisibility;
         }catch(Exception e){
             e.printStackTrace();
             return null;

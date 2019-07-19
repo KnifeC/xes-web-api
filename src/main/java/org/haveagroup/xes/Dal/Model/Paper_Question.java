@@ -11,17 +11,17 @@ public class Paper_Question {
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
     @GeneratedValue(generator = "jpa-uuid")
     @Column(length = 32)
-    private String pqId;
+    private String paper_question_Id;
 
     private String paperId;
     private String questionId;
 
-    public String getPqId() {
-        return pqId;
+    public String getPaper_question_Id() {
+        return paper_question_Id;
     }
 
-    public void setPqId(String pqId) {
-        this.pqId = pqId;
+    public void setPaper_question_Id(String paper_question_Id) {
+        this.paper_question_Id = paper_question_Id;
     }
 
     public String getPaperId() {

@@ -48,15 +48,22 @@ public class QuestionBankController {
     }
 
     @GetMapping(value="webapi/questionBank/{questionBankId}")
-    public QuestionBankJson findOneByQuestionBankId(@PathVariable("questionBankId") String questionBankId){
+    public QuestionBankJson findOneByQuestionBankId(@PathVariable("questionBankId") String questionBankId,HttpSession session){
         List<QuestionBankDataJson> questionBankByIdList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new QuestionBankJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),questionBankByIdList);
+        }
+        String userId = (String)session.getAttribute(SessionKey.USER_ID);
         QuestionBank questionBank = questionBankService.findOneByQuestionBankId(questionBankId);
         if(questionBank==null){
             return new QuestionBankJson(new StatusJson(Status.ERROR,"抱歉！您没有权限访问该资源或该资源已不存在！","THIS"),questionBankByIdList);
         }
-        if(!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
+        if(!StringUtil.isEquals(questionBank.getOwnerId(),userId)&&!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
             return new QuestionBankJson(new StatusJson(Status.ERROR,"抱歉！您没有权限访问该资源或该资源已不存在！","THIS"),questionBankByIdList);
         }
+//        if(!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
+//            return new QuestionBankJson(new StatusJson(Status.ERROR,"抱歉！您没有权限访问该资源或该资源已不存在！","THIS"),questionBankByIdList);
+//        }
         User owner = userService.findByUserId(questionBank.getOwnerId());
         QuestionBankDataJson examinationData = new QuestionBankDataJson(questionBank.getQuestionBankId(),questionBank.getQuestionBankName(),
                 questionBank.getOwnerId(),owner.getUsername(),questionBank.getVisibility());
@@ -64,15 +71,19 @@ public class QuestionBankController {
         return new QuestionBankJson(new StatusJson(Status.SUCCESS,"成功找到题库","THIS"),questionBankByIdList);
     }
 
-    @GetMapping(value="webapi/searchQuestionBank/{questionBankName}")
-    public QuestionBankJson findAllByQuestionBankName(@PathVariable("questionBankName") String questionBankName){
+    @GetMapping(value="webapi/searchQuestionBank/byName/{questionBankName}")
+    public QuestionBankJson findAllByQuestionBankName(@PathVariable("questionBankName") String questionBankName,HttpSession session){
         List<QuestionBank> allByQuestionBankName = questionBankService.findAllByQuestionBankNameLike(questionBankName);
         List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new QuestionBankJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),questionBankDataList);
+        }
         if(allByQuestionBankName.size()==0) {
             return new QuestionBankJson(new StatusJson(Status.WARNING, "抱歉！您没有权限访问该资源或该资源已不存在！", "THIS"), questionBankDataList);
         }
+        String userId = (String)session.getAttribute(SessionKey.USER_ID);
         for(QuestionBank questionBank : allByQuestionBankName){
-            if(!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
+            if(!StringUtil.isEquals(questionBank.getOwnerId(),userId)&&!StringUtil.isEquals(questionBank.getVisibility(),"公开")){
                 continue;
             }
             User owner = userService.findByUserId(questionBank.getOwnerId());
@@ -81,6 +92,40 @@ public class QuestionBankController {
             questionBankDataList.add(questionBankDataJson);
         }
         return new QuestionBankJson(new StatusJson(Status.SUCCESS,"显示符合关键字的题库","THIS"),questionBankDataList);
+    }
+
+    @GetMapping(value="webapi/searchQuestionBank/byUserId")
+    public QuestionBankJson findAllByUserId(HttpSession session){
+        List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new QuestionBankJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),questionBankDataList);
+        }
+        String userId = (String)session.getAttribute(SessionKey.USER_ID);
+        List<QuestionBank> allByOwnerId = questionBankService.findAllByOwnerId(userId);
+        for(QuestionBank questionBank : allByOwnerId){
+            User owner = userService.findByUserId(questionBank.getOwnerId());
+            QuestionBankDataJson questionBankDataJson = new QuestionBankDataJson(questionBank.getQuestionBankId(),
+                    questionBank.getQuestionBankName(),questionBank.getOwnerId(),owner.getUsername(),questionBank.getVisibility());
+            questionBankDataList.add(questionBankDataJson);
+        }
+        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"显示自己的题库","THIS"),questionBankDataList);
+    }
+
+
+    @GetMapping(value="webapi/searchQuestionBank/byOwnerId/{ownerId}")
+    public QuestionBankJson findAllByOwnerId(@PathVariable("ownerId") String ownerId){
+        List<QuestionBank> allByOwnerId = questionBankService.findAllByOwnerIdAndVisibility(ownerId);
+        List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
+        if(allByOwnerId.size()==0) {
+            return new QuestionBankJson(new StatusJson(Status.WARNING, "抱歉！您没有权限访问该资源或该资源已不存在！", "THIS"), questionBankDataList);
+        }
+        for(QuestionBank questionBank : allByOwnerId){
+            User owner = userService.findByUserId(questionBank.getOwnerId());
+            QuestionBankDataJson questionBankDataJson = new QuestionBankDataJson(questionBank.getQuestionBankId(),
+                    questionBank.getQuestionBankName(),questionBank.getOwnerId(),owner.getUsername(),questionBank.getVisibility());
+            questionBankDataList.add(questionBankDataJson);
+        }
+        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"显示该创建者的所有题库","THIS"),questionBankDataList);
     }
 
     @PostMapping(value="webapi/editBankInfo")
@@ -94,7 +139,9 @@ public class QuestionBankController {
         return new StatusJson(Status.ERROR,"修改失败","THIS");
     }
 
-//    @PostMapping(value="webapi/addToBank")
+
+
+//    @PostMapping(value="webapi/addQuestion/toBank/{}")
 //    public QuestionBankJson addQuestionToQuestionBank(String questionBankId, String questionId){
 //        question_questionBankService.addQuestionToQuestionBank(questionBankId,questionId);
 //

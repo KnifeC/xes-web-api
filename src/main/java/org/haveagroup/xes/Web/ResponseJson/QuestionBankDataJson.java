@@ -10,12 +10,6 @@ public class QuestionBankDataJson {
     private String ownerName;
     private String visibility;
 
-    public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId, String ownerName) {
-        this.questionBankId = questionBankId;
-        this.questionBankName = questionBankName;
-        this.ownerId = ownerId;
-        this.ownerName = ownerName;
-    }
 
     public QuestionBankDataJson(String questionBankId, String questionBankName, String ownerId, String ownerName, String visibility) {
         this.questionBankId = questionBankId;
@@ -55,5 +49,13 @@ public class QuestionBankDataJson {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }
