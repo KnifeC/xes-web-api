@@ -45,32 +45,8 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
-//    @Override
-//    public List<Question> findCacheByQuestionContentLike(String questionContent){
-//        try{
-//            List<Question> allByQuestionContent = redisUtil.getQuestionList(questionContent);
-//
-//            allByQuestionContent = questionRepo.findAllByQuestionContentLike("%"+questionContent+"%");
-//            return allByQuestionContent;
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
     @Override
     public Question findByQuestionId(String questionId){
-        try{
-            Question question = questionRepo.findByQuestionId(questionId);
-            return question;
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public Question findCacheByQuestionId(String questionId){
         try{
             Question question = (Question)redisUtil.getObject(questionId);
             if(null == question){
@@ -83,4 +59,17 @@ public class QuestionServiceImpl implements QuestionService {
             return null;
         }
     }
+
+//    @Override
+//    public List<Question> findCacheByQuestionContentLike(String questionContent){
+//        try{
+//            List<Question> allByQuestionContent = redisUtil.getQuestionList(questionContent);
+//
+//            allByQuestionContent = questionRepo.findAllByQuestionContentLike("%"+questionContent+"%");
+//            return allByQuestionContent;
+//        }catch(Exception e){
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

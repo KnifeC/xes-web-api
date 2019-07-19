@@ -17,9 +17,7 @@ public class Question implements Serializable {
     private String questionType;
     private String questionContent;
     private String questionAnswer;
-
     private String uploaderId;
-    //private String uploaderName;
 
     private double accuracy;
 

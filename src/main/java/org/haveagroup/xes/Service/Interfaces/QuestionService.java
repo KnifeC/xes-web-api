@@ -7,15 +7,11 @@ import java.util.List;
 
 public interface QuestionService {
 
+    Question findByQuestionId(String questionId);
     Question uploadQuestion(String questionContent,String questionAnswer,String questionType,String uploaderId);
-
     List<Question> findAllByQuestionContentLike(String questionContent);
 
+
+
 //    List<Question> findCacheByQuestionContentLike(String questionContent);
-
-    Question findByQuestionId(String questionId);
-
-    Question findCacheByQuestionId(String questionId);
-
-    //boolean addQuestionToBank(String QuestionId);
 }

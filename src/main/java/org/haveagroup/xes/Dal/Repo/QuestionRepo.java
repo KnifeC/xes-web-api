@@ -15,6 +15,4 @@ public interface QuestionRepo extends JpaRepository<Question,String> {
     //@Query(value = "select questionId,questionContent from Question q where q.questionContent like CONCAT('%',:questionContent,'%')")
     //List<Question> findByQuestionContentLike(@Param("questionContent") String questionContent);
 
-    //List<Question> findByTag
-
 }

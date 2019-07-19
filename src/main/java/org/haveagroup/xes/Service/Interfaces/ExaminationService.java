@@ -12,4 +12,9 @@ public interface ExaminationService {
     List<Examination> findAllByExaminationNameLike(String examinationName);
     List<Examination> findAllByCreator(String creatorId);
 
+
+
+
+
+
 }

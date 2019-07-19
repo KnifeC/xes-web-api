@@ -92,6 +92,9 @@ public class ExaminationController {
     public ExaminationJson findAllByExaminationName(@PathVariable("examinationName") String examinationName,HttpSession session){
         List<Examination> allByExaminationName = examinationService.findAllByExaminationNameLike(examinationName);
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);
+        }
         String userId = (String)session.getAttribute(SessionKey.USER_ID);
         if(allByExaminationName.size()==0){
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有符合关键字的考试","THIS"),examinationDataList);
@@ -104,6 +107,9 @@ public class ExaminationController {
             ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                     examination.getExaminationName(),examination.getCreatorId(),creator.getUsername());
             examinationDataList.add(examinationDataJson);
+        }
+        if(examinationDataList.size()==0){
+            return new ExaminationJson(new StatusJson(Status.WARNING,"没有符合关键字的考试","THIS"),examinationDataList);
         }
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示符合关键字的考试","THIS"),examinationDataList);
     }

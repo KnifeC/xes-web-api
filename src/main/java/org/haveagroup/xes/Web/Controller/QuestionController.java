@@ -24,7 +24,6 @@ import java.util.List;
 public class QuestionController {
     @Autowired
     QuestionService questionService;
-
     @Autowired
     UserService userService;
 

@@ -15,6 +15,11 @@ public class Examination {
     private String examinationName;
     private String creatorId;
     private String numberOfPapers;
+
+
+    private String beginTime;
+    private String durationTime;
+
     private double average;
 
     public String getExaminationId() {
@@ -39,5 +44,21 @@ public class Examination {
 
     public void setCreatorId(String creatorId) {
         this.creatorId = creatorId;
+    }
+
+    public String getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(String beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public String getDurationTime() {
+        return durationTime;
+    }
+
+    public void setDurationTime(String durationTime) {
+        this.durationTime = durationTime;
     }
 }

@@ -18,6 +18,4 @@ public interface QuestionBankService {
 
     List<QuestionBank> findAllByOwnerId(String ownerId);
     List<QuestionBank> findAllByOwnerIdAndVisibility(String ownerId);
-
-
 }
