@@ -49,7 +49,7 @@ public class Examination_User_ServiceImpl implements Examination_User_Service {
         List<User> users = new ArrayList<>();
         List<Examination_User> e_u = examination_user_repo.findAllByExaminationId(examinationId);
         for(Examination_User examination_user : e_u){
-            users.add(userRepo.findByUserId(examination_user.getExaminationId()));
+            users.add(userRepo.findByUserId(examination_user.getUserId()));
         }
         return users;
     }

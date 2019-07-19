@@ -4,6 +4,7 @@ import org.haveagroup.xes.Dal.Model.Question;
 import org.haveagroup.xes.Dal.Model.QuestionBank;
 import org.haveagroup.xes.Dal.Repo.QuestionBankRepo;
 import org.haveagroup.xes.Service.Interfaces.QuestionBankService;
+import org.haveagroup.xes.Util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,9 @@ public class QuestionBankServiceImpl implements QuestionBankService {
     @Override
     public boolean deleteQuestionBank(String questionBankId,String ownerId){
         try{
+            if(!StringUtil.isEquals(questionBankRepo.findOneByQuestionBankId(questionBankId).getOwnerId(),ownerId)){
+                return false;
+            }
             questionBankRepo.deleteById(questionBankId);
             return true;
         }catch(Exception e){

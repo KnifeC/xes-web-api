@@ -2,15 +2,15 @@ package org.haveagroup.xes.Web.Controller;
 
 import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
+import org.haveagroup.xes.Dal.Model.Question;
 import org.haveagroup.xes.Dal.Model.QuestionBank;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.QuestionBankService;
-import org.haveagroup.xes.Service.Interfaces.Question_QuestionBankService;
+import org.haveagroup.xes.Service.Interfaces.QuestionBank_Question_Service;
+import org.haveagroup.xes.Service.Interfaces.QuestionService;
 import org.haveagroup.xes.Service.UserService;
 import org.haveagroup.xes.Util.StringUtil;
-import org.haveagroup.xes.Web.ResponseJson.QuestionBankDataJson;
-import org.haveagroup.xes.Web.ResponseJson.QuestionBankJson;
-import org.haveagroup.xes.Web.ResponseJson.StatusJson;
+import org.haveagroup.xes.Web.ResponseJson.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +25,9 @@ import java.util.List;
 @RestController
 public class QuestionBankController {
     @Autowired
-    Question_QuestionBankService question_questionBankService;
-
+    QuestionBank_Question_Service questionBank_question_service;
+    @Autowired
+    QuestionService questionService;
     @Autowired
     QuestionBankService questionBankService;
     @Autowired
@@ -139,14 +140,30 @@ public class QuestionBankController {
         return new StatusJson(Status.ERROR,"修改失败","THIS");
     }
 
+    @GetMapping(value="webapi/showQuestion/fromBank/{questionBankId}")
+    public QuestionBank_Question_Json showQuestion(@PathVariable("questionBankId") String questionBankId){
+        QuestionBank questionBank = questionBankService.findOneByQuestionBankId(questionBankId);
+        List<QuestionBankDataJson> questionBankDataList = new ArrayList<>();
+        QuestionBankDataJson questionBankDataJson = new QuestionBankDataJson(questionBank.getQuestionBankId(),questionBank.getQuestionBankName(),
+                questionBank.getOwnerId(),userService.findByUserId(questionBank.getOwnerId()).getUsername(),
+                questionBank.getVisibility());
+        questionBankDataList.add(questionBankDataJson);
+
+        List<Question> allQuestionFromQuestionBank = questionBank_question_service.findAllQuestionByQuestionBankId(questionBankId);
+        List<QuestionDataJson> questionDataList = new ArrayList<>();
+        for(Question question : allQuestionFromQuestionBank){
+            QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
+                    question.getQuestionAnswer(),question.getQuestionType(),
+                    question.getUploaderId(),userService.findByUserId(question.getUploaderId()).getUsername());
+            questionDataList.add(questionDataJson);
+        }
+        return new QuestionBank_Question_Json(new StatusJson(Status.SUCCESS,"该题库的题","THIS"),questionBankDataList,questionDataList);
+    }
 
 
-//    @PostMapping(value="webapi/addQuestion/toBank/{}")
+//    @PostMapping(value="webapi/addQuestion/toBank")
 //    public QuestionBankJson addQuestionToQuestionBank(String questionBankId, String questionId){
 //        question_questionBankService.addQuestionToQuestionBank(questionBankId,questionId);
-//
-//        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"添加试题到题库中","THIS"),new QuestionBankDataJson(questionBankId));
+//        return new QuestionBankJson(new StatusJson(Status.SUCCESS,"添加试题到题库中","THIS"),new QuestionBankDataJson());
 //    }
-
-
 }

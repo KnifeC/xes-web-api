@@ -9,6 +9,6 @@ import java.util.List;
 public interface Examination_User_Service {
     Examination_User findByUserIdAndExaminationId(String userId, String examinationId);
     List<Examination> findAllExaminationByUserId(String userId);
-    List<User> findAllUserByExaminationId(String ExaminationId);
+    List<User> findAllUserByExaminationId(String examinationId);
     Examination_User addUserToExamination(String userId,String examinationId);
 }
