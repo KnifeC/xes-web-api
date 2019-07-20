@@ -1,9 +1,9 @@
-package org.haveagroup.xes.Service;
+package org.haveagroup.xes.Service.InterfaceImpl;
 
 
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Dal.Repo.UserRepo;
-import org.haveagroup.xes.Service.UserService;
+import org.haveagroup.xes.Service.Interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
             User user = userRepo.findByUserId(userId);
             user.setUsername(username);
             user.setPassword(password);
+            userRepo.save(user);
             return user;
         }catch(Exception e){
             e.printStackTrace();
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
         try{
             User user = userRepo.findByUserId(userId);
             user.setType(type);
+            userRepo.save(user);
             return true;
         }catch(Exception e){
             e.printStackTrace();

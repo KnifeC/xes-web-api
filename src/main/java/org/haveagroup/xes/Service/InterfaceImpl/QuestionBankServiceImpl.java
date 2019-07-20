@@ -50,6 +50,7 @@ public class QuestionBankServiceImpl implements QuestionBankService {
         try{
             QuestionBank questionBank = questionBankRepo.findOneByQuestionBankId(questionBankId);
             questionBank.setQuestionBankName(questionBankName);
+            questionBankRepo.save(questionBank);
             return questionBank;
         }catch(Exception e){
             e.printStackTrace();
@@ -62,6 +63,7 @@ public class QuestionBankServiceImpl implements QuestionBankService {
         try{
             QuestionBank questionBank = questionBankRepo.findOneByQuestionBankId(questionBankId);
             questionBank.setVisibility(visibility);
+            questionBankRepo.save(questionBank);
             return questionBank;
         }catch(Exception e){
             e.printStackTrace();

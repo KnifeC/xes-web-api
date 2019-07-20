@@ -6,7 +6,7 @@ import org.haveagroup.xes.Dal.Model.Examination;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.ExaminationService;
 import org.haveagroup.xes.Service.Interfaces.Examination_User_Service;
-import org.haveagroup.xes.Service.UserService;
+import org.haveagroup.xes.Service.Interfaces.UserService;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.Forms.EditExaminationForm;
 import org.haveagroup.xes.Web.ResponseJson.*;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,7 +38,8 @@ public class ExaminationController {
                 User creator = userService.findByUserId(examination.getCreatorId());
                 ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                         examination.getExaminationName(),examination.getCreatorId(),creator.getUsername(),
-                        examination.getBeginTime(),examination.getEndTime(),examination.getExaminationStatus());
+                        examination.getBeginTime(),examination.getEndTime(),
+                        examination.getExaminationStatus(),examination.getDurationTime());
                 examinationDataList.add(examinationDataJson);
             }
             return new ExaminationJson(new StatusJson(Status.SUCCESS,"该用户发布的考试","THIS"),examinationDataList);
@@ -47,7 +47,7 @@ public class ExaminationController {
     }
 
     @PostMapping(value="webapi/createExamination")
-    public ExaminationJson createExamination(String examinationName, String beginTime,String endTime, HttpSession session){
+    public ExaminationJson createExamination(String examinationName, String beginTime,String endTime,String durationTime, HttpSession session){
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
         if(session.getAttribute(SessionKey.USER_TYPE)==null){
             return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);
@@ -57,10 +57,11 @@ public class ExaminationController {
         }
         String creatorId = (String)session.getAttribute(SessionKey.USER_ID);
         String creatorName = (String)session.getAttribute(SessionKey.USER_NAME);
-        Examination examination = examinationService.createExamination(examinationName,creatorId,beginTime,endTime);
+        Examination examination = examinationService.createExamination(examinationName,creatorId,beginTime,endTime,durationTime);
 
         ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),
-                examination.getExaminationName(),creatorId,creatorName,beginTime,endTime,examination.getExaminationStatus());
+                examination.getExaminationName(),creatorId,creatorName,beginTime,endTime,
+                examination.getExaminationStatus(),examination.getDurationTime());
         examinationDataList.add(examinationData);
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"创建考试","THIS"),examinationDataList);
     }
@@ -73,17 +74,20 @@ public class ExaminationController {
 
     @PostMapping(value="webapi/editExaminationInfo")
     public StatusJson editExaminationInfo(String examinationId, EditExaminationForm editExaminationForm,HttpSession session){
-        if(StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),examinationService.findOneByExaminationId(examinationId).getCreatorId())){
+        if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),examinationService.findOneByExaminationId(examinationId).getCreatorId())){
             return new StatusJson(Status.ERROR,"你不是创建者","THIS");
         }
         if(!examinationService.editExaminationName(examinationId,editExaminationForm.getExaminationName())){
             return new StatusJson(Status.ERROR,"修改名称失败","THIS");
         }
-        if(!examinationService.editExaminationBeginTime(examinationId,editExaminationForm.getBeginDate())){
+        if(!examinationService.editExaminationBeginTime(examinationId,editExaminationForm.getBeginTime())){
             return new StatusJson(Status.ERROR,"修改开始时间失败","THIS");
         }
-        if(!examinationService.editExaminationEndTime(examinationId,editExaminationForm.getEndDate())){
+        if(!examinationService.editExaminationEndTime(examinationId,editExaminationForm.getEndTime())){
             return new StatusJson(Status.ERROR,"修改结束时间失败","THIS");
+        }
+        if(!examinationService.editExaminationDurationTime(examinationId,editExaminationForm.getDurationTime())){
+            return new StatusJson(Status.ERROR,"修改持续时间失败","THIS");
         }
         return new StatusJson(Status.SUCCESS,"修改信息成功","THIS");
     }
@@ -96,12 +100,14 @@ public class ExaminationController {
         if(examination==null){
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有这门考试","THIS"),examinationByIdList);
         }
-        if(examination_user_service.findByUserIdAndExaminationId(userId,examinationId)==null){
+        if(examination_user_service.findByUserIdAndExaminationId(userId,examinationId)==null
+        &&!StringUtil.isEquals(examinationService.findOneByExaminationId(examinationId).getCreatorId(),(String)session.getAttribute(SessionKey.USER_ID))){
             return new ExaminationJson(new StatusJson(Status.WARNING,"你没有参加这门考试","THIS"),examinationByIdList);
         }
         User creator = userService.findByUserId(examination.getCreatorId());
         ExaminationDataJson examinationData = new ExaminationDataJson(examination.getExaminationId(),examination.getExaminationName(),
-                examination.getCreatorId(),creator.getUsername(),examination.getBeginTime(),examination.getEndTime(),examination.getExaminationStatus());
+                examination.getCreatorId(),creator.getUsername(),examination.getBeginTime(),examination.getEndTime(),
+                examination.getExaminationStatus(),examination.getDurationTime());
         examinationByIdList.add(examinationData);
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"成功找到考试","THIS"),examinationByIdList);
 
@@ -125,7 +131,8 @@ public class ExaminationController {
             User creator = userService.findByUserId(examination.getCreatorId());
             ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                     examination.getExaminationName(),examination.getCreatorId(),creator.getUsername(),
-                    examination.getBeginTime(),examination.getEndTime(),examination.getExaminationStatus());
+                    examination.getBeginTime(),examination.getEndTime(),
+                    examination.getExaminationStatus(),examination.getDurationTime());
             examinationDataList.add(examinationDataJson);
         }
         if(examinationDataList.size()==0){
@@ -148,7 +155,8 @@ public class ExaminationController {
             User creator = userService.findByUserId(examination.getCreatorId());
             ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                     examination.getExaminationName(),examination.getCreatorId(),creator.getUsername(),
-                    examination.getBeginTime(),examination.getEndTime(),examination.getExaminationStatus());
+                    examination.getBeginTime(),examination.getEndTime(),
+                    examination.getExaminationStatus(),examination.getDurationTime());
             examinationDataList.add(examinationDataJson);
         }
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示该用户参与的考试","THIS"),examinationDataList);
@@ -169,7 +177,8 @@ public class ExaminationController {
             User creator = userService.findByUserId(examination.getCreatorId());
             ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                     examination.getExaminationName(), examination.getCreatorId(), creator.getUsername(),
-                    examination.getBeginTime(),examination.getEndTime(),examination.getExaminationStatus());
+                    examination.getBeginTime(),examination.getEndTime(),
+                    examination.getExaminationStatus(),examination.getDurationTime());
             examinationDataList.add(examinationDataJson);
         }
         return new ExaminationJson(new StatusJson(Status.SUCCESS,"显示该用户参与的考试","THIS"),examinationDataList);

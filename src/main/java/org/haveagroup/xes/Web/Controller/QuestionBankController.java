@@ -9,7 +9,7 @@ import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.QuestionBankService;
 import org.haveagroup.xes.Service.Interfaces.QuestionBank_Question_Service;
 import org.haveagroup.xes.Service.Interfaces.QuestionService;
-import org.haveagroup.xes.Service.UserService;
+import org.haveagroup.xes.Service.Interfaces.UserService;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.ResponseJson.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +146,7 @@ public class QuestionBankController {
         if(questionBankService.editVisibility(questionBankId,visibility)==null){
             return new StatusJson(Status.SUCCESS,"修改可见性失败","THIS");
         }
-        return new StatusJson(Status.ERROR,"修改失败","THIS");
+        return new StatusJson(Status.SUCCESS,"修改成功","THIS");
     }
 
     @GetMapping(value="webapi/showQuestion/fromBank/{questionBankId}")

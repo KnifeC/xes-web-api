@@ -1,4 +1,4 @@
-package org.haveagroup.xes.Service;
+package org.haveagroup.xes.Service.Interfaces;
 
 import org.haveagroup.xes.Dal.Model.User;
 

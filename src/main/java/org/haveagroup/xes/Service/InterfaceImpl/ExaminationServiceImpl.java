@@ -19,13 +19,14 @@ public class ExaminationServiceImpl implements ExaminationService {
     UserRepo userRepo;
 
     @Override
-    public Examination createExamination(String examinationName, String creatorId, String beginTime, String endTime){
+    public Examination createExamination(String examinationName, String creatorId, String beginTime, String endTime,String durationTime){
         try{
             Examination examination = new Examination();
             examination.setExaminationName(examinationName);
             examination.setCreatorId(creatorId);
             examination.setBeginTime(beginTime);
             examination.setEndTime(endTime);
+            examination.setDurationTime(durationTime);
             examinationRepo.save(examination);
             return examination;
         }catch(Exception e){
@@ -81,7 +82,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationName(String examinationId,String examinationName){
         try{
-            examinationRepo.findOneByExaminationId(examinationId).setExaminationName(examinationName);
+            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            examination.setExaminationName(examinationName);
+            examinationRepo.save(examination);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -91,7 +94,9 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationBeginTime(String examinationId,String beginTime){
         try{
-            examinationRepo.findOneByExaminationId(examinationId).setBeginTime(beginTime);
+            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            examination.setBeginTime(beginTime);
+            examinationRepo.save(examination);
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -101,7 +106,21 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationEndTime(String examinationId,String endTime){
         try{
-            examinationRepo.findOneByExaminationId(examinationId).setEndTime(endTime);
+            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            examination.setEndTime(endTime);
+            examinationRepo.save(examination);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public boolean editExaminationDurationTime(String examinationId,String durationTime){
+        try{
+            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            examination.setDurationTime(durationTime);
+            examinationRepo.save(examination);
             return true;
         }catch(Exception e){
             e.printStackTrace();

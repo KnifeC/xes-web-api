@@ -4,8 +4,9 @@ import java.util.Date;
 
 public class EditExaminationForm {
     private String examinationName;
-    private String beginDate;
-    private String endDate;
+    private String beginTime;
+    private String endTime;
+    private String durationTime;
 
     public String getExaminationName() {
         return examinationName;
@@ -15,19 +16,27 @@ public class EditExaminationForm {
         this.examinationName = examinationName;
     }
 
-    public String getBeginDate() {
-        return beginDate;
+    public String getBeginTime() {
+        return beginTime;
     }
 
-    public void setBeginDate(String beginDate) {
-        this.beginDate = beginDate;
+    public void setBeginTime(String beginTime) {
+        this.beginTime = beginTime;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getDurationTime() {
+        return durationTime;
+    }
+
+    public void setDurationTime(String durationTime) {
+        this.durationTime = durationTime;
     }
 }

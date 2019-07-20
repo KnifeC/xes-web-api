@@ -3,7 +3,7 @@ package org.haveagroup.xes.Web.Controller;
 import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.User;
-import org.haveagroup.xes.Service.UserService;
+import org.haveagroup.xes.Service.Interfaces.UserService;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.Forms.LoginForm;
 import org.haveagroup.xes.Web.Forms.EditForm;

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ExaminationService {
 
-    Examination createExamination(String examinationName, String creatorId, String beginTime,String endTime);
+    Examination createExamination(String examinationName, String creatorId, String beginTime,String endTime,String durationTime);
     boolean deleteExamination(String examinationId);
     Examination findOneByExaminationId(String examinationId);
     List<Examination> findAllByExaminationNameLike(String examinationName);
@@ -15,5 +15,6 @@ public interface ExaminationService {
     boolean editExaminationName(String examinationId,String examinationName);
     boolean editExaminationBeginTime(String examinationId,String beginTime);
     boolean editExaminationEndTime(String examinationId,String endTime);
+    boolean editExaminationDurationTime(String examinationId,String durationTime);
 
 }
