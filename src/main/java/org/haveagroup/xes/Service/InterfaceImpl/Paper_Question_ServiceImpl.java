@@ -25,7 +25,7 @@ public class Paper_Question_ServiceImpl implements Paper_Question_Service {
     @Override
     public Paper_Question findByPaperIdAndQuestionId(String paperId, String questionId){
         try{
-            return paper_question_repo.findByPaperIdAndAndQuestionId(paperId,questionId);
+            return paper_question_repo.findByPaperIdAndQuestionId(paperId,questionId);
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -79,7 +79,7 @@ public class Paper_Question_ServiceImpl implements Paper_Question_Service {
     @Override
     public boolean deleteQuestionFromPaper(String questionId,String paperId){
         try{
-            String deleteId = paper_question_repo.findByPaperIdAndAndQuestionId(paperId,questionId)
+            String deleteId = paper_question_repo.findByPaperIdAndQuestionId(paperId,questionId)
                     .getPaper_question_Id();
             paper_question_repo.deleteById(deleteId);
             return true;
@@ -91,7 +91,7 @@ public class Paper_Question_ServiceImpl implements Paper_Question_Service {
 
     @Override
     public boolean isQuestionUsed(String paperId,String questionId){
-        Paper_Question paper_question = paper_question_repo.findByPaperIdAndAndQuestionId(paperId,questionId);
+        Paper_Question paper_question = paper_question_repo.findByPaperIdAndQuestionId(paperId,questionId);
         return paper_question!=null;
     }
 }

@@ -5,10 +5,8 @@ import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.Paper;
 import org.haveagroup.xes.Dal.Model.Paper_Question;
 import org.haveagroup.xes.Dal.Model.Question;
-import org.haveagroup.xes.Service.Interfaces.ExaminationService;
-import org.haveagroup.xes.Service.Interfaces.PaperService;
-import org.haveagroup.xes.Service.Interfaces.Paper_Question_Service;
-import org.haveagroup.xes.Service.Interfaces.QuestionService;
+import org.haveagroup.xes.Dal.Model.Question_Answer;
+import org.haveagroup.xes.Service.Interfaces.*;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.ResponseJson.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,8 @@ public class PaperController {
     ExaminationService examinationService;
     @Autowired
     Paper_Question_Service paper_question_service;
+    @Autowired
+    Question_Answer_Service question_answer_service;
 
     @PostMapping(value="webapi/createPaper")
     public PaperJson createPaper(String examinationId, String paperName, HttpSession session){
@@ -64,7 +64,6 @@ public class PaperController {
         Paper paper = paperService.findByPaperId(paperId);
         if(paper==null){
             return new PaperJson(new StatusJson(Status.ERROR,"没有这个试卷","THIS"),paperByIdList);
-
         }
         PaperDataJson paperDataJson = new PaperDataJson(paper.getPaperId(),paper.getPaperName(),
                 paper.getExaminationId(),paper.getExaminationName());
@@ -94,21 +93,67 @@ public class PaperController {
         return new Paper_Question_Json(new StatusJson(Status.ERROR,"这张卷纸的题","THIS"),paperDataList,questionDataList);
     }
 
+    @GetMapping(value="webapi/showActivePaper")
+    public Paper_Answer_Json showActivePaper(String paperId,String userId,HttpSession session){
+        List<PaperDataJson> paperDataList = new ArrayList<>();
+        List<AnswerDataJson> answerDataList = new ArrayList<>();
+        if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),userId)){
+            return new Paper_Answer_Json(new StatusJson(Status.ERROR,"用户信息不正确","THIS"),paperDataList,answerDataList);
+        }
+        Paper paper = paperService.findByPaperId(paperId);
+        if(paper==null){
+            return new Paper_Answer_Json(new StatusJson(Status.ERROR,"没有这张试卷","THIS"),paperDataList,answerDataList);
+        }
+        PaperDataJson paperDataJson = new PaperDataJson(paper.getPaperId(),paper.getPaperName(),
+                paper.getExaminationId(),paper.getExaminationName());
+        paperDataList.add(paperDataJson);
+        List<Question_Answer> question_answers = question_answer_service.findAnswers(paperId,userId);
+        for(Question_Answer question_answer : question_answers){
+            Question question = questionService.findByQuestionId(question_answer.getQuestionId());
+            AnswerDataJson answerDataJson = new AnswerDataJson(question_answer.getExaminationId(),question_answer.getPaperId(),
+                    question_answer.getQuestionId(),question.getQuestionContent(),question_answer.getAnswer());
+            answerDataList.add(answerDataJson);
+        }
+        return new Paper_Answer_Json(new StatusJson(Status.SUCCESS,"显示已作答答案","THIS"),paperDataList,answerDataList);
+    }
+
     @PostMapping(value="webapi/addQuestion/toPaper")
     public StatusJson addQuestionToPaper(String paperId,String questionId){
         Question question = questionService.findByQuestionId(questionId);
         if(question==null){
             return new StatusJson(Status.ERROR,"没有这个题","THIS");
         }
+        System.out.println(paper_question_service.isQuestionUsed(paperId,questionId));
         if(paper_question_service.isQuestionUsed(paperId,questionId)){
             return new StatusJson(Status.ERROR,"试卷中已有了这个题","THIS");
         }
-        Paper_Question p_q = paper_question_service.addQuestionToPaper(paperId,questionId);
+        Paper_Question p_q = paper_question_service.addQuestionToPaper(questionId,paperId);
         if(p_q==null){
             return new StatusJson(Status.ERROR,"添加失败","THIS");
         }
         return new StatusJson(Status.SUCCESS,"添加成功","THIS");
     }
 
+    @PostMapping(value="webapi/answerQuestion")
+    public StatusJson answerQuestion(String examinationId,String paperId,String questionId,String userId,String answer,HttpSession session){
+        //List<AnswerDataJson> answerList = new ArrayList<>();
+        if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),userId)){
+            return new StatusJson(Status.ERROR,"用户信息不正确","THIS");
+        }
+        if(!question_answer_service.answerQuestion(examinationId,paperId,questionId,userId,answer)){
+            return new StatusJson(Status.ERROR,"回答失败","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"回答成功","THIS");
 
+    }
+    @PostMapping(value="webapi/editAnswer")
+    public StatusJson editAnswer(String examinationId,String paperId,String questionId,String userId,String answer,HttpSession session){
+        if(StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),userId)){
+            return new StatusJson(Status.ERROR,"用户信息不正确","THIS");
+        }
+        if(!question_answer_service.editQuestion(examinationId,paperId,questionId,userId,answer)){
+            return new StatusJson(Status.ERROR,"修改失败","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"修改成功","THIS");
+    }
 }

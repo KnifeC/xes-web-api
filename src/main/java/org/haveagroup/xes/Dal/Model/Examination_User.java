@@ -15,6 +15,7 @@ public class Examination_User {
     private String examination_user_id;
     private String examinationId;
     private String userId;
+    private String status;
 
     public String getExamination_user_id() {
         return examination_user_id;
@@ -38,5 +39,13 @@ public class Examination_User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

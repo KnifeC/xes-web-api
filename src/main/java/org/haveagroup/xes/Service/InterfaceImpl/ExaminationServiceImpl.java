@@ -8,6 +8,7 @@ import org.haveagroup.xes.Service.Interfaces.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,11 +19,13 @@ public class ExaminationServiceImpl implements ExaminationService {
     UserRepo userRepo;
 
     @Override
-    public Examination createExamination(String examinationName,String creatorId){
+    public Examination createExamination(String examinationName, String creatorId, Date beginTime, Date endTime){
         try{
             Examination examination = new Examination();
             examination.setExaminationName(examinationName);
             examination.setCreatorId(creatorId);
+            examination.setBeginTime(beginTime);
+            examination.setEndTime(endTime);
             examinationRepo.save(examination);
             return examination;
         }catch(Exception e){
@@ -72,6 +75,37 @@ public class ExaminationServiceImpl implements ExaminationService {
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public boolean editExaminationName(String examinationId,String examinationName){
+        try{
+            examinationRepo.findOneByExaminationId(examinationId).setExaminationName(examinationName);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public boolean editExaminationBeginTime(String examinationId,Date beginTime){
+        try{
+            examinationRepo.findOneByExaminationId(examinationId).setBeginTime(beginTime);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public boolean editExaminationEndTime(String examinationId,Date endTime){
+        try{
+            examinationRepo.findOneByExaminationId(examinationId).setEndTime(endTime);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 

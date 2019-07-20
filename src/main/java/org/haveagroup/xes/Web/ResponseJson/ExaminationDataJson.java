@@ -1,25 +1,27 @@
 package org.haveagroup.xes.Web.ResponseJson;
 
+import java.util.Date;
+
 public class ExaminationDataJson {
     private String examinationId;
     private String examinationName;
     private String creatorId;
     private String creatorName;
+    private Date beginTime;
+    private Date endTime;
+    private String examinationStatus;
 
     public ExaminationDataJson() {
     }
 
-    public ExaminationDataJson(String examinationId, String examinationName, String creatorId) {
-        this.examinationId = examinationId;
-        this.examinationName = examinationName;
-        this.creatorId = creatorId;
-    }
-
-    public ExaminationDataJson(String examinationId, String examinationName, String creatorId, String creatorName) {
+    public ExaminationDataJson(String examinationId, String examinationName, String creatorId, String creatorName, Date beginTime, Date endTime, String examinationStatus) {
         this.examinationId = examinationId;
         this.examinationName = examinationName;
         this.creatorId = creatorId;
         this.creatorName = creatorName;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.examinationStatus = examinationStatus;
     }
 
     public String getExaminationId() {
@@ -52,5 +54,21 @@ public class ExaminationDataJson {
 
     public void setCreatorName(String creatorName) {
         this.creatorName = creatorName;
+    }
+
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

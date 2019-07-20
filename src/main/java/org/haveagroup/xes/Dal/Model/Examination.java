@@ -3,6 +3,7 @@ package org.haveagroup.xes.Dal.Model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="examination")
@@ -16,9 +17,11 @@ public class Examination {
     private String creatorId;
     private String numberOfPapers;
 
-
-    private String beginTime;
+    private Date beginTime;
+    private Date endTime;
     private String durationTime;
+
+    private String examinationStatus = "未开始";
 
     private double average;
 
@@ -46,12 +49,20 @@ public class Examination {
         this.creatorId = creatorId;
     }
 
-    public String getBeginTime() {
+    public Date getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(String beginTime) {
+    public void setBeginTime(Date beginTime) {
         this.beginTime = beginTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getDurationTime() {
@@ -60,5 +71,13 @@ public class Examination {
 
     public void setDurationTime(String durationTime) {
         this.durationTime = durationTime;
+    }
+
+    public String getExaminationStatus() {
+        return examinationStatus;
+    }
+
+    public void setExaminationStatus(String examinationStatus) {
+        this.examinationStatus = examinationStatus;
     }
 }
