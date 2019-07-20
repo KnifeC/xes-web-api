@@ -1,7 +1,10 @@
 package org.haveagroup.xes.Service.InterfaceImpl;
 
 import org.haveagroup.xes.Dal.Model.Question;
+import org.haveagroup.xes.Dal.Model.QuestionBank_Question;
+import org.haveagroup.xes.Dal.Repo.QuestionBank_Question_Repo;
 import org.haveagroup.xes.Dal.Repo.QuestionRepo;
+import org.haveagroup.xes.Service.Interfaces.QuestionBank_Question_Service;
 import org.haveagroup.xes.Service.Interfaces.QuestionService;
 import org.haveagroup.xes.Util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Autowired
     QuestionRepo questionRepo;
+
+    @Autowired
+    QuestionBank_Question_Repo questionBank_question_repo;
 
     @Autowired
     RedisUtil redisUtil;
@@ -31,6 +37,24 @@ public class QuestionServiceImpl implements QuestionService {
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public boolean deleteQuestion(String questionId){
+        try{
+            questionRepo.deleteById(questionId);
+            List<QuestionBank_Question> questionBank_questions = questionBank_question_repo.findAllQuestionBankIdByQuestionId(questionId);
+            if(questionBank_questions.size()==0){
+                return false;
+            }
+            for(QuestionBank_Question questionBank_question : questionBank_questions){
+                questionBank_question_repo.deleteById(questionBank_question.getQuestionBank_question_id());
+            }
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 

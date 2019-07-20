@@ -57,18 +57,36 @@ public class PaperController {
 
     @GetMapping(value="webapi/paper/{paperId}")
     public PaperJson findOneByPaperId(@PathVariable("paperId") String paperId,HttpSession session){
-        List<PaperDataJson> paperByIdList = new ArrayList<>();
+        List<PaperDataJson> paperDataList = new ArrayList<>();
         if(session.getAttribute(SessionKey.USER_TYPE)==null){
-            return new PaperJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),paperByIdList);
+            return new PaperJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),paperDataList);
         }
         Paper paper = paperService.findByPaperId(paperId);
         if(paper==null){
-            return new PaperJson(new StatusJson(Status.ERROR,"没有这个试卷","THIS"),paperByIdList);
+            return new PaperJson(new StatusJson(Status.ERROR,"没有这个试卷","THIS"),paperDataList);
         }
         PaperDataJson paperDataJson = new PaperDataJson(paper.getPaperId(),paper.getPaperName(),
                 paper.getExaminationId(),paper.getExaminationName());
-        paperByIdList.add(paperDataJson);
-        return new PaperJson(new StatusJson(Status.SUCCESS,"试卷","THIS"),paperByIdList);
+        paperDataList.add(paperDataJson);
+        return new PaperJson(new StatusJson(Status.SUCCESS,"试卷","THIS"),paperDataList);
+    }
+
+    @GetMapping(value="webapi/searchPaper/byExaminationId")
+    public PaperJson findAllByExaminationId(String examinationId,HttpSession session){
+        List<PaperDataJson> paperDataList = new ArrayList<>();
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new PaperJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),paperDataList);
+        }
+        List<Paper> allByExaminationId =paperService.findAllByExaminationId(examinationId);
+        if(allByExaminationId.size()==0){
+            return new PaperJson(new StatusJson(Status.WARNING,"该考试没有试卷","THIS"),paperDataList);
+        }
+        for(Paper paper : allByExaminationId){
+            PaperDataJson paperDataJson = new PaperDataJson(paper.getPaperId(),paper.getPaperName(),
+                    paper.getExaminationId(),paper.getExaminationName());
+            paperDataList.add(paperDataJson);
+        }
+        return new PaperJson(new StatusJson(Status.SUCCESS,"试卷基础信息","THIS"),paperDataList);
     }
 
     @GetMapping(value="webapi/showQuestion/fromPaper/{paperId}")

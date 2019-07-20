@@ -74,9 +74,9 @@ public class ExaminationController {
 
     @PostMapping(value="webapi/editExaminationInfo")
     public StatusJson editExaminationInfo(String examinationId, EditExaminationForm editExaminationForm,HttpSession session){
-        if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),examinationService.findOneByExaminationId(examinationId).getCreatorId())){
-            return new StatusJson(Status.ERROR,"你不是创建者","THIS");
-        }
+//        if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),examinationService.findOneByExaminationId(examinationId).getCreatorId())){
+//            return new StatusJson(Status.ERROR,"你不是创建者","THIS");
+//        }
         if(!examinationService.editExaminationName(examinationId,editExaminationForm.getExaminationName())){
             return new StatusJson(Status.ERROR,"修改名称失败","THIS");
         }
@@ -125,7 +125,8 @@ public class ExaminationController {
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有符合关键字的考试","THIS"),examinationDataList);
         }
         for(Examination examination : allByExaminationName){
-            if(examination_user_service.findByUserIdAndExaminationId(userId,examination.getExaminationId())==null){
+            if(examination_user_service.findByUserIdAndExaminationId(userId,examination.getExaminationId())==null
+                    &&!StringUtil.isEquals(examinationService.findOneByExaminationId(examination.getExaminationId()).getCreatorId(),(String)session.getAttribute(SessionKey.USER_ID))){
                 continue;
             }
             User creator = userService.findByUserId(examination.getCreatorId());
@@ -151,7 +152,9 @@ public class ExaminationController {
         if(allExaminationByUserId.size()==0){
             return new ExaminationJson(new StatusJson(Status.WARNING,"没有该用户参与的考试","THIS"),examinationDataList);
         }
+        System.out.println(allExaminationByUserId);
         for(Examination examination : allExaminationByUserId){
+            System.out.println(examination.getCreatorId());
             User creator = userService.findByUserId(examination.getCreatorId());
             ExaminationDataJson examinationDataJson = new ExaminationDataJson(examination.getExaminationId(),
                     examination.getExaminationName(),examination.getCreatorId(),creator.getUsername(),
@@ -185,7 +188,8 @@ public class ExaminationController {
     }
 
     @PostMapping(value="webapi/addUserToExamination")
-    public Examination_User_Json addUserToExamination(String userId,String examinationId){
+    public Examination_User_Json addUserToExamination(String email,String examinationId){
+        String userId = userService.findByEmail(email).getUserId();
         examination_user_service.addUserToExamination(userId,examinationId);
         return new Examination_User_Json(new StatusJson(Status.SUCCESS,"添加用户至考试成功","THIS"),
                 userId,userService.findByUserId(userId).getUsername(),

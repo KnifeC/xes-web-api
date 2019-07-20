@@ -7,6 +7,8 @@ import org.haveagroup.xes.Service.Interfaces.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PaperServiceImpl implements PaperService {
     @Autowired
@@ -19,7 +21,7 @@ public class PaperServiceImpl implements PaperService {
         try{
             Paper paper = new Paper();
             paper.setExaminationId(examinationId);
-            paper.setExaminationName(examinationRepo.findOneByExaminationId(examinationId).getExaminationName());
+            paper.setExaminationName(examinationRepo.findByExaminationId(examinationId).getExaminationName());
             paper.setPaperName(paperName);
             paperRepo.save(paper);
             return paper;
@@ -27,6 +29,18 @@ public class PaperServiceImpl implements PaperService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<Paper> findAllByExaminationId(String examinationId){
+        try{
+            List<Paper> papers = paperRepo.findAllByExaminationId(examinationId);
+            return papers;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override

@@ -46,13 +46,13 @@ public class QuestionBankController {
         return new QuestionBankJson(new StatusJson(Status.SUCCESS,"创建题库","THIS"),questionBankDataList);
     }
 
-    @DeleteMapping(value="webapi/deleteQuestionBank")
+    @PostMapping(value="webapi/deleteQuestionBank")
     public StatusJson deleteQuestionBank(String questionBankId,HttpSession session){
         String ownerId = questionBankService.findOneByQuestionBankId(questionBankId).getOwnerId();
         if(!StringUtil.isEquals((String)session.getAttribute(SessionKey.USER_ID),ownerId)){
             return new StatusJson(Status.ERROR,"用户信息不正确","THIS");
         }
-        if(questionBankService.deleteQuestionBank(questionBankId,ownerId)){
+        if(!questionBankService.deleteQuestionBank(questionBankId,ownerId)){
             return new StatusJson(Status.ERROR,"删除失败","THIS");
         }
         return new StatusJson(Status.SUCCESS,"删除成功","THIS");

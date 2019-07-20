@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface PaperRepo extends JpaRepository<Paper,String> {
     Paper findByPaperId(String paperId);
+    List<Paper> findAllByExaminationId(String examination);
 }

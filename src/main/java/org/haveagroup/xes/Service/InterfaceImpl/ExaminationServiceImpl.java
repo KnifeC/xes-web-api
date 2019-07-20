@@ -1,8 +1,12 @@
 package org.haveagroup.xes.Service.InterfaceImpl;
 
 import org.haveagroup.xes.Dal.Model.Examination;
+import org.haveagroup.xes.Dal.Model.Examination_User;
+import org.haveagroup.xes.Dal.Model.Paper;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Dal.Repo.ExaminationRepo;
+import org.haveagroup.xes.Dal.Repo.Examination_User_Repo;
+import org.haveagroup.xes.Dal.Repo.PaperRepo;
 import org.haveagroup.xes.Dal.Repo.UserRepo;
 import org.haveagroup.xes.Service.Interfaces.ExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,10 @@ public class ExaminationServiceImpl implements ExaminationService {
     ExaminationRepo examinationRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    Examination_User_Repo examination_user_repo;
+    @Autowired
+    PaperRepo paperRepo;
 
     @Override
     public Examination createExamination(String examinationName, String creatorId, String beginTime, String endTime,String durationTime){
@@ -39,6 +47,16 @@ public class ExaminationServiceImpl implements ExaminationService {
     public boolean deleteExamination(String examinationId){
         try{
             examinationRepo.deleteById(examinationId);
+            List<Examination_User> examination_users = examination_user_repo.findAllByExaminationId(examinationId);
+            for(Examination_User examination_user : examination_users){
+                examination_user_repo.deleteById(examination_user.getExamination_user_id());
+            }
+            List<Paper> papers = paperRepo.findAllByExaminationId(examinationId);
+            for(Paper paper : papers){
+                paperRepo.deleteById(paper.getPaperId());
+            }
+
+
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -49,7 +67,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public Examination findOneByExaminationId(String examinationId){
         try{
-            Examination oneByExaminationId = examinationRepo.findOneByExaminationId(examinationId);
+            Examination oneByExaminationId = examinationRepo.findByExaminationId(examinationId);
             return oneByExaminationId;
         }catch(Exception e){
             e.printStackTrace();
@@ -82,7 +100,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationName(String examinationId,String examinationName){
         try{
-            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            Examination examination = examinationRepo.findByExaminationId(examinationId);
             examination.setExaminationName(examinationName);
             examinationRepo.save(examination);
             return true;
@@ -94,7 +112,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationBeginTime(String examinationId,String beginTime){
         try{
-            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            Examination examination = examinationRepo.findByExaminationId(examinationId);
             examination.setBeginTime(beginTime);
             examinationRepo.save(examination);
             return true;
@@ -106,7 +124,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationEndTime(String examinationId,String endTime){
         try{
-            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            Examination examination = examinationRepo.findByExaminationId(examinationId);
             examination.setEndTime(endTime);
             examinationRepo.save(examination);
             return true;
@@ -118,7 +136,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     @Override
     public boolean editExaminationDurationTime(String examinationId,String durationTime){
         try{
-            Examination examination = examinationRepo.findOneByExaminationId(examinationId);
+            Examination examination = examinationRepo.findByExaminationId(examinationId);
             examination.setDurationTime(durationTime);
             examinationRepo.save(examination);
             return true;

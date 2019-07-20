@@ -36,12 +36,19 @@ public class Examination_User_ServiceImpl implements Examination_User_Service {
 
     @Override
     public List<Examination> findAllExaminationByUserId(String userId){
-        List<Examination> examinations = new ArrayList<>();
-        List<Examination_User> e_u = examination_user_repo.findAllByUserId(userId);
-        for(Examination_User examination_user : e_u){
-            examinations.add(examinationRepo.findOneByExaminationId(examination_user.getExaminationId()));
+        try{
+            List<Examination> examinations = new ArrayList<>();
+            List<Examination_User> e_u = examination_user_repo.findAllByUserId(userId);
+            for(Examination_User examination_user : e_u){
+                System.out.println(examination_user.getExaminationId());
+                System.out.println(examinationRepo.findByExaminationId(examination_user.getExaminationId()));
+                examinations.add(examinationRepo.findByExaminationId(examination_user.getExaminationId()));
+            }
+            return examinations;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
-        return examinations;
     }
 
     @Override

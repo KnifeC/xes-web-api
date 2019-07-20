@@ -94,7 +94,17 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return null;
         }
-
     }
+
+    @Override
+    public User findByEmail(String email){
+        try{
+            return userRepo.findByEmail(email);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }

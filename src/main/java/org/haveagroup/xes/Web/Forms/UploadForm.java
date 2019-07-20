@@ -5,6 +5,7 @@ public class UploadForm {
     private String questionAnswer;
     private String questionType;
 
+
     public String getQuestionContent() {
         return questionContent;
     }
@@ -28,4 +29,6 @@ public class UploadForm {
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
     }
+
+
 }

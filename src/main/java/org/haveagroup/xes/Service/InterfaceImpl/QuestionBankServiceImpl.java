@@ -1,8 +1,9 @@
 package org.haveagroup.xes.Service.InterfaceImpl;
 
-import org.haveagroup.xes.Dal.Model.Question;
 import org.haveagroup.xes.Dal.Model.QuestionBank;
+import org.haveagroup.xes.Dal.Model.QuestionBank_Question;
 import org.haveagroup.xes.Dal.Repo.QuestionBankRepo;
+import org.haveagroup.xes.Dal.Repo.QuestionBank_Question_Repo;
 import org.haveagroup.xes.Service.Interfaces.QuestionBankService;
 import org.haveagroup.xes.Util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 
     @Autowired
     QuestionBankRepo questionBankRepo;
+    @Autowired
+    QuestionBank_Question_Repo questionBank_question_repo;
 
     @Override
     public QuestionBank createQuestionBank(String questionBankName,String ownerId,String visibility){
@@ -38,6 +41,13 @@ public class QuestionBankServiceImpl implements QuestionBankService {
                 return false;
             }
             questionBankRepo.deleteById(questionBankId);
+            List<QuestionBank_Question> questionBank_questions = questionBank_question_repo.findAllQuestionIdByQuestionBankId(questionBankId);
+            if(questionBank_questions.size()==0){
+                return false;
+            }
+            for(QuestionBank_Question questionBank_question : questionBank_questions){
+                questionBank_question_repo.deleteById(questionBank_question.getQuestionBank_question_id());
+            }
             return true;
         }catch(Exception e){
             e.printStackTrace();
