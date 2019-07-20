@@ -47,7 +47,7 @@ public class ExaminationController {
     }
 
     @PostMapping(value="webapi/createExamination")
-    public ExaminationJson createExamination(String examinationName, Date beginTime,Date endTime, HttpSession session){
+    public ExaminationJson createExamination(String examinationName, String beginTime,String endTime, HttpSession session){
         List<ExaminationDataJson> examinationDataList = new ArrayList<>();
         if(session.getAttribute(SessionKey.USER_TYPE)==null){
             return new ExaminationJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),examinationDataList);

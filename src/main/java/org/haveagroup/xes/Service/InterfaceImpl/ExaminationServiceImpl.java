@@ -19,7 +19,7 @@ public class ExaminationServiceImpl implements ExaminationService {
     UserRepo userRepo;
 
     @Override
-    public Examination createExamination(String examinationName, String creatorId, Date beginTime, Date endTime){
+    public Examination createExamination(String examinationName, String creatorId, String beginTime, String endTime){
         try{
             Examination examination = new Examination();
             examination.setExaminationName(examinationName);
@@ -89,7 +89,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
     }
     @Override
-    public boolean editExaminationBeginTime(String examinationId,Date beginTime){
+    public boolean editExaminationBeginTime(String examinationId,String beginTime){
         try{
             examinationRepo.findOneByExaminationId(examinationId).setBeginTime(beginTime);
             return true;
@@ -99,7 +99,7 @@ public class ExaminationServiceImpl implements ExaminationService {
         }
     }
     @Override
-    public boolean editExaminationEndTime(String examinationId,Date endTime){
+    public boolean editExaminationEndTime(String examinationId,String endTime){
         try{
             examinationRepo.findOneByExaminationId(examinationId).setEndTime(endTime);
             return true;

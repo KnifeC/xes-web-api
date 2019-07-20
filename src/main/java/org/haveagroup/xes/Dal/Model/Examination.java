@@ -17,8 +17,8 @@ public class Examination {
     private String creatorId;
     private String numberOfPapers;
 
-    private Date beginTime;
-    private Date endTime;
+    private String beginTime;
+    private String endTime;
     private String durationTime;
 
     private String examinationStatus = "未开始";
@@ -49,19 +49,19 @@ public class Examination {
         this.creatorId = creatorId;
     }
 
-    public Date getBeginTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(Date beginTime) {
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

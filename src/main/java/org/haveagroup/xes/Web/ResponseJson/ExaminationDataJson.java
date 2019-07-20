@@ -7,14 +7,14 @@ public class ExaminationDataJson {
     private String examinationName;
     private String creatorId;
     private String creatorName;
-    private Date beginTime;
-    private Date endTime;
+    private String beginTime;
+    private String endTime;
     private String examinationStatus;
 
     public ExaminationDataJson() {
     }
 
-    public ExaminationDataJson(String examinationId, String examinationName, String creatorId, String creatorName, Date beginTime, Date endTime, String examinationStatus) {
+    public ExaminationDataJson(String examinationId, String examinationName, String creatorId, String creatorName, String beginTime, String endTime, String examinationStatus) {
         this.examinationId = examinationId;
         this.examinationName = examinationName;
         this.creatorId = creatorId;
@@ -56,19 +56,27 @@ public class ExaminationDataJson {
         this.creatorName = creatorName;
     }
 
-    public Date getBeginTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(Date beginTime) {
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public String getExaminationStatus() {
+        return examinationStatus;
+    }
+
+    public void setExaminationStatus(String examinationStatus) {
+        this.examinationStatus = examinationStatus;
     }
 }
