@@ -177,12 +177,20 @@ public class QuestionBankController {
 
 
     @PostMapping(value="webapi/addQuestion/toBank")
-    public StatusJson addQuestionToQuestionBank(String questionId, String questionBankId){
+    public StatusJson addQuestionToQuestionBank(String questionId, String questionBankId,HttpSession session){
+        if(session.getAttribute(SessionKey.USER_TYPE)==null){
+            return new StatusJson(Status.ERROR,"没有登陆啊","THIS");
+        }
+        if(!StringUtil.isEquals(questionBankService.findOneByQuestionBankId(questionBankId).getOwnerId(),(String)session.getAttribute(SessionKey.USER_ID))){
+            return new StatusJson(Status.ERROR,"用户不正确","THIS");
+        }
         Question question = questionService.findByQuestionId(questionId);
+
         if(question==null){
             return new StatusJson(Status.ERROR,"没有这个题","THIS");
         }
         QuestionBank_Question qb_q = questionBank_question_service.addQuestionToQuestionBank(questionId,questionBankId);
+
         if(qb_q==null){
             return new StatusJson(Status.ERROR,"添加失败","THIS");
         }

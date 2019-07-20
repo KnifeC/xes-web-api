@@ -2,10 +2,10 @@ package org.haveagroup.xes.Dal.Model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name="tag")
 public class Tag {
     @Id
     @GenericGenerator(name = "jpa-uuid", strategy = "uuid")
