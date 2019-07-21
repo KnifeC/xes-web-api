@@ -38,9 +38,9 @@ public class QuestionController {
         if(session.getAttribute(SessionKey.USER_TYPE)==null){
             return new QuestionJson(new StatusJson(Status.ERROR,"没有登陆","THIS"),questionDataList);
         }
-        if(!session.getAttribute(SessionKey.USER_TYPE).equals("teacher")){
-            return new QuestionJson(new StatusJson(Status.ERROR,"没有权限","THIS"),questionDataList);
-        }
+//        if(!session.getAttribute(SessionKey.USER_TYPE).equals("teacher")){
+//            return new QuestionJson(new StatusJson(Status.ERROR,"没有权限","THIS"),questionDataList);
+//        }
         String uploaderId = (String)session.getAttribute(SessionKey.USER_ID);
         String uploaderName = (String)session.getAttribute(SessionKey.USER_NAME);
         Question question = questionService.uploadQuestion(uploadForm.getQuestionContent(),uploadForm.getQuestionAnswer(),
