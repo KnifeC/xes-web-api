@@ -36,15 +36,15 @@ public class UserController {
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
         }
-//        String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
-//        Cookie cookie=new Cookie("token",cookieValue);
-//        cookie.setMaxAge(7*24*60*60);
-//        cookie.setPath("/");
-//        response.addCookie(cookie);
-//        session.setAttribute(SessionKey.USER_ID,user.getUserId());
-//        session.setAttribute(SessionKey.USER_TYPE,user.getType());
-//        session.setAttribute(SessionKey.USER_NAME,user.getUsername());
-//        session.setAttribute(SessionKey.USER_EMAIL,user.getEmail());
+        String cookieValue = user.getEmail()+"&&&"+user.getPassword();
+        Cookie cookie=new Cookie("token",cookieValue);
+        cookie.setMaxAge(7*24*60*60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        session.setAttribute(SessionKey.USER_ID,user.getUserId());
+        session.setAttribute(SessionKey.USER_TYPE,user.getType());
+        session.setAttribute(SessionKey.USER_NAME,user.getUsername());
+        session.setAttribute(SessionKey.USER_EMAIL,user.getEmail());
         return new UserJson(new StatusJson(Status.SUCCESS,"登录成功","index"),new UserDataJson(user));
     }
 
@@ -119,8 +119,8 @@ public class UserController {
     }
 
     @PostMapping(value="webapi/editUsername")
-    public StatusJson editUsername(String userId,String username){
-        if(userService.editUsername(userId,username)){
+    public StatusJson editUsername(String userId,String userName){
+        if(userService.editUsername(userId,userName)){
             return new StatusJson(Status.SUCCESS,"修改成功","THIS");
         }else{
             return new StatusJson(Status.ERROR,"修改失败","THIS");
