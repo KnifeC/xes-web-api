@@ -83,7 +83,22 @@ public class QuestionController {
             questionDataList.add(questionDataJson);
         }
         return new QuestionJson(new StatusJson(Status.SUCCESS,"显示符合关键字的试题","THIS"),questionDataList);
+    }
 
+    @GetMapping(value="webapi/searchQuestion/byUploaderId/{uploaderId}")
+    public QuestionJson findAllByOwnerId(@PathVariable("uploaderId") String uploaderId){
+        List<Question> allByUploaderId = questionService.findAllByUploaderId(uploaderId);
+        List<QuestionDataJson> questionDataList = new ArrayList<>();
+        if(allByUploaderId.size()==0) {
+            return new QuestionJson(new StatusJson(Status.WARNING, "抱歉！您没有权限访问该资源或该资源已不存在！", "THIS"), questionBankDataList);
+        }
+        for(Question question : allByUploaderId){
+            User uploader = userService.findByUserId(question.getUploaderId());
+            QuestionDataJson questionDataJson = new QuestionDataJson(question.getQuestionId(),question.getQuestionContent(),
+                    question.getQuestionAnswer(),question.getQuestionType(),question.getUploaderId(),uploader.getUsername());
+            questionDataList.add(questionDataJson);
+        }
+        return new QuestionJson(new StatusJson(Status.SUCCESS,"显示该创建者的所有题库","THIS"),questionBankDataList);
     }
 
     @GetMapping(value="webapi/searchQuestion/byTag/{tagName}")

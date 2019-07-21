@@ -12,6 +12,8 @@ public interface QuestionService {
     List<Question> findAllByQuestionContentLike(String questionContent);
     boolean deleteQuestion(String questionId);
 
+    List<Question> findAllByUploaderId(String uploaderId);
+
 
 
 //    List<Question> findCacheByQuestionContentLike(String questionContent);

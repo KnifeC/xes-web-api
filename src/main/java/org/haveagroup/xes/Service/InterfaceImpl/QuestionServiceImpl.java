@@ -84,6 +84,17 @@ public class QuestionServiceImpl implements QuestionService {
         }
     }
 
+    @Override
+    public List<Question> findAllByUploaderId(String uploaderId){
+        try{
+            List<Question> questionList = questionRepo.findAllByUploaderId(uploaderId);
+            return questionList;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 //    @Override
 //    public List<Question> findCacheByQuestionContentLike(String questionContent){
 //        try{
