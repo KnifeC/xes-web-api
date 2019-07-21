@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean editPassword(String userId,String password){
         try{
-            password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
+            //password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
             User user = userRepo.findByUserId(userId);
             user.setPassword(password);
             userRepo.save(user);
