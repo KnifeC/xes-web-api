@@ -4,6 +4,7 @@ import org.haveagroup.xes.Commom.SessionKey;
 import org.haveagroup.xes.Commom.Status;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Service.Interfaces.UserService;
+import org.haveagroup.xes.Util.CryptoUtil;
 import org.haveagroup.xes.Util.StringUtil;
 import org.haveagroup.xes.Web.Forms.LoginForm;
 import org.haveagroup.xes.Web.Forms.EditForm;
@@ -26,14 +27,19 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     @Autowired
     UserService userService;
+    @Autowired
+    CryptoUtil cryptoUtil;
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
     //@RequestBody Map<String, Object> payload,
     @PostMapping(value="webapi/login")
     public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
         logger.info("看这里啊！！！！！！！&&&"+loginForm.getEmail()+"&&&"+loginForm.getPassword());
+        //String password = cryptoUtil.encode(loginForm.getPassword());
+        //System.out.println(password);
         User user=userService.login(loginForm.getEmail(),loginForm.getPassword());
-        logger.info(user.toString());
+
+        //logger.info(user.toString());
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
         }

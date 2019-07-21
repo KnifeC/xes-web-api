@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try{
 //            String userPassword = bCryptPasswordEncoder.encode(password);
-            password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
+            //password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
             User user = new User();
             user.setEmail(email);
             user.setUsername(username);
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
         //TODO 加密
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try {
-            password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
-            System.out.println(email + password);
+            //password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
+            System.out.println(email +"    "+password);
             User user = userRepo.findByEmailAndPassword(email,password);
 //            if (!bCryptPasswordEncoder.matches(password,user.getPassword())){
 //                return null;
