@@ -33,6 +33,7 @@ public class UserController {
     public UserJson userLogin(LoginForm loginForm, HttpServletResponse response, HttpSession session){
         logger.info("看这里啊！！！！！！！&&&"+loginForm.getEmail()+"&&&"+loginForm.getPassword());
         User user=userService.login(loginForm.getEmail(),loginForm.getPassword());
+        logger.info(user.toString());
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
         }
