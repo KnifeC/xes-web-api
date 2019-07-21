@@ -55,6 +55,7 @@ public class UserServiceImpl implements UserService {
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try {
             password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
+            System.out.println(email + password);
             User user = userRepo.findByEmailAndPassword(email,password);
 //            if (!bCryptPasswordEncoder.matches(password,user.getPassword())){
 //                return null;
