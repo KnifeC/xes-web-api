@@ -87,6 +87,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean editUsername(String userId,String username){
+        try{
+            User user = userRepo.findByUserId(userId);
+            user.setUsername(username);
+            userRepo.save(user);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean editPassword(String userId,String password){
+        try{
+            User user = userRepo.findByUserId(userId);
+            user.setPassword(password);
+            userRepo.save(user);
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public User findByUserId(String userId){
         try{
             return userRepo.findByUserId(userId);

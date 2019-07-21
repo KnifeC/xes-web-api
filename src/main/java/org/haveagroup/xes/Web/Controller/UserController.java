@@ -36,15 +36,15 @@ public class UserController {
         if(user == null){
             return new UserJson(new StatusJson(Status.ERROR,"登陆失败","THIS"),new UserDataJson());
         }
-        String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
-        Cookie cookie=new Cookie("token",cookieValue);
-        cookie.setMaxAge(7*24*60*60);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        session.setAttribute(SessionKey.USER_ID,user.getUserId());
-        session.setAttribute(SessionKey.USER_TYPE,user.getType());
-        session.setAttribute(SessionKey.USER_NAME,user.getUsername());
-        session.setAttribute(SessionKey.USER_EMAIL,user.getEmail());
+//        String cookieValue = user.getEmail()+"&&&"+loginForm.getPassword();
+//        Cookie cookie=new Cookie("token",cookieValue);
+//        cookie.setMaxAge(7*24*60*60);
+//        cookie.setPath("/");
+//        response.addCookie(cookie);
+//        session.setAttribute(SessionKey.USER_ID,user.getUserId());
+//        session.setAttribute(SessionKey.USER_TYPE,user.getType());
+//        session.setAttribute(SessionKey.USER_NAME,user.getUsername());
+//        session.setAttribute(SessionKey.USER_EMAIL,user.getEmail());
         return new UserJson(new StatusJson(Status.SUCCESS,"登录成功","index"),new UserDataJson(user));
     }
 
@@ -118,5 +118,23 @@ public class UserController {
         }
     }
 
+    @PostMapping(value="webapi/editUsername")
+    public StatusJson editUsername(String userId,String username){
+        if(userService.editUsername(userId,username)){
+            return new StatusJson(Status.SUCCESS,"修改成功","THIS");
+        }else{
+            return new StatusJson(Status.ERROR,"修改失败","THIS");
+        }
+    }
 
+    @PostMapping(value="webapi/editPassword")
+    public StatusJson editPassword(String userId,String password,String re_password){
+        if(!StringUtil.isEquals(password,re_password)){
+            return new StatusJson(Status.ERROR,"两次输入的密码不同","THIS");
+        }
+        if(!userService.editPassword(userId,password)){
+            return new StatusJson(Status.ERROR,"修改失败","THIS");
+        }
+        return new StatusJson(Status.SUCCESS,"修改成功","THIS");
+    }
 }

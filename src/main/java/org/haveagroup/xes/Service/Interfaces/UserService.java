@@ -10,6 +10,8 @@ public interface UserService {
     User editInfo(String userId,String email,String username);
 
     boolean changeType(String userId,String type);
+    boolean editUsername(String userId,String username);
+    boolean editPassword(String userId,String username);
     //boolean changePart(String userId,String partId);
 
     User findByUserId(String userId);
