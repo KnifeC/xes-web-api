@@ -4,15 +4,21 @@ package org.haveagroup.xes.Service.InterfaceImpl;
 import org.haveagroup.xes.Dal.Model.User;
 import org.haveagroup.xes.Dal.Repo.UserRepo;
 import org.haveagroup.xes.Service.Interfaces.UserService;
+import org.haveagroup.xes.Util.CryptoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static org.haveagroup.xes.Util.CryptoUtil.DEFAULT_SECRET_KEY;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    CryptoUtil cryptoUtil;
 
 
     @Override
@@ -29,11 +35,11 @@ public class UserServiceImpl implements UserService {
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try{
 //            String userPassword = bCryptPasswordEncoder.encode(password);
-            String userPassword = password;
+            password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
             User user = new User();
             user.setEmail(email);
             user.setUsername(username);
-            user.setPassword(userPassword);
+            user.setPassword(password);
             //user.setRegTime(new Date());
             userRepo.save(user);
             return true;
@@ -48,6 +54,7 @@ public class UserServiceImpl implements UserService {
         //TODO 加密
 //        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         try {
+            password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
             User user = userRepo.findByEmailAndPassword(email,password);
 //            if (!bCryptPasswordEncoder.matches(password,user.getPassword())){
 //                return null;
@@ -102,6 +109,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean editPassword(String userId,String password){
         try{
+            password = cryptoUtil.encode(DEFAULT_SECRET_KEY,password);
             User user = userRepo.findByUserId(userId);
             user.setPassword(password);
             userRepo.save(user);
